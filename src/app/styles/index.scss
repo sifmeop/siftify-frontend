@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './_variables.scss';
+
+body {
+  font-family: var(--font-family);
+  color: #ffffff;
+  background-color: #121212;
+}

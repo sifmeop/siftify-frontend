@@ -1,0 +1,15 @@
+.wrapper {
+  @apply relative flex items-center;
+}
+
+.input {
+  @apply w-full outline-none py-1 px-2 border-transparent text-black rounded-md focus:border-primary border-2 transition-colors duration-300 focus-visible:outline-none;
+
+  &Password {
+    @apply pr-8;
+  }
+}
+
+.passwordIcon {
+  @apply text-black absolute right-2;
+}

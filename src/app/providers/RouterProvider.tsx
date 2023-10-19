@@ -1,36 +1,49 @@
-import Home from '#/pages/home'
-import { AuthLayout, MainLayout } from '#/pages/layouts'
-import { SignUp } from '#/pages/sign-up'
+import { HomePage } from '#/pages/home-page'
+import { NotFoundPage } from '#/pages/not-found-page'
+import { SignInPage } from '#/pages/sign-in-page'
+import { SignUpPage } from '#/pages/sign-up-page'
+import { AuthGuard, AuthLayout, MainLayout } from '#/shared/layouts'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <>
+      <AuthGuard>
         <MainLayout />
-      </>
+      </AuthGuard>
     ),
     children: [
       {
-        element: <Home />,
+        element: <HomePage />,
         index: true
       }
     ]
   },
   {
     path: 'auth',
-    element: <AuthLayout />,
     children: [
       {
         path: 'sign-up',
-        element: <SignUp />
+        element: (
+          <AuthLayout title='Sign Up'>
+            <SignUpPage />
+          </AuthLayout>
+        )
       },
       {
         path: 'sign-in',
-        element: <div>Sign in</div>
+        element: (
+          <AuthLayout title='Sign In'>
+            <SignInPage />
+          </AuthLayout>
+        )
       }
     ]
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />
   }
 ])
 
