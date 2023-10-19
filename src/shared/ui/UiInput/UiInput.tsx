@@ -24,13 +24,13 @@ export const UiInput = ({ register, type = 'text', ...props }: Props) => {
         type={showPassword ? 'text' : type}
         {...props}
       />
-      {/* {typeIsPassword && (
+      {typeIsPassword && (
         <button
           onClick={() => setShowPassword((prevValue) => !prevValue)}
           className={styles.passwordIcon}>
           <ShowPasswordIcon size='20px' />
         </button>
-      )} */}
+      )}
     </div>
   )
 }
