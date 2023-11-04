@@ -21,6 +21,23 @@ export interface SignError {
   }
 }
 
+export interface Track {
+  id: string
+  title: string
+  poster: string
+  track: string
+  featuring: string[]
+  artistId: string
+  listening: number
+  userId: string | null
+  artist: {
+    name: string
+    photo: string
+  }
+  duration: string
+  created_at: string
+}
+
 export const siftifyApi = {
   signIn: async (body: SignInDto) => {
     try {
@@ -34,6 +51,14 @@ export const siftifyApi = {
       return axiosInstance.post('/auth/sign-up', body)
     } catch (error) {
       console.log(error, 'Error sign-up')
+    }
+  },
+  getAllTracks: async () => {
+    try {
+      const response = await axiosInstance.get<Track[]>('/track/all')
+      return response.data
+    } catch (error) {
+      console.log(error, 'Error get all tracks')
     }
   }
 }

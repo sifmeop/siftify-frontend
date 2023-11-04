@@ -1,22 +1,27 @@
 import { HomePage } from '#/pages/home-page'
 import { NotFoundPage } from '#/pages/not-found-page'
+import { SearchPage } from '#/pages/search-page'
 import { SignInPage } from '#/pages/sign-in-page'
 import { SignUpPage } from '#/pages/sign-up-page'
-import { AuthGuard, AuthLayout, MainLayout } from '#/shared/layouts'
+import { AuthLayout, MainLayout } from '#/shared/layouts'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthGuard>
-        <MainLayout />
-      </AuthGuard>
+      // <AuthGuard>*/}
+      <MainLayout />
+      // </AuthGuard>
     ),
     children: [
       {
         element: <HomePage />,
         index: true
+      },
+      {
+        path: 'search',
+        element: <SearchPage />
       }
     ]
   },

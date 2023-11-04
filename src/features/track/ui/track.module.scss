@@ -1,0 +1,10 @@
+@import '/src/app/styles/mixins.scss';
+
+.wrapper {
+  @apply flex w-full items-center gap-4 hover:bg-white/10;
+  @include tableTracks;
+}
+
+.titleBlock {
+  @apply flex items-center gap-4;
+}
