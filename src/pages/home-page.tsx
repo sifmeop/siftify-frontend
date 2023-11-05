@@ -6,11 +6,11 @@ export const HomePage = () => {
   const { data } = useGetAllTracks()
 
   return (
-    <div>
+    <>
       <UiTableTracks />
       {data?.map((track, index) => (
         <Track key={track.id} data={track} trackIndex={index + 1} />
       ))}
-    </div>
+    </>
   )
 }

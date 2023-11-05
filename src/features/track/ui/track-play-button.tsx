@@ -17,8 +17,10 @@ const TrackPlayButton = ({
   trackIndex,
   isHover
 }: TrackPlayButtonProps) => {
-  const { audioRef, currentTrack, setCurrentTrack, setIsPlaying, isPlaying } =
+  const { audioRef, setCurrentTrack, setIsPlaying, isPlaying } =
     useAudioPlayerStore()
+
+  const currentTrack = useAudioPlayerStore((state) => state.currentTrack?.track)
 
   useEffect(() => {
     if (isPlaying) {
@@ -40,29 +42,33 @@ const TrackPlayButton = ({
     setIsPlaying(false)
   }
 
+  const isPlayingCurrentTrack =
+    !isHover && isPlaying && data.track === currentTrack
+  const isHoverPauseCurrentTrack =
+    !isHover &&
+    (data.track !== currentTrack || (!isPlaying && data.track === currentTrack))
+  const pauseCurrentTrack = isHover && data.track === currentTrack && isPlaying
+  const playNextTrack =
+    isHover &&
+    (data.track !== currentTrack || (data.track === currentTrack && !isPlaying))
+
   return (
     <div>
-      {!isHover &&
-        (data.track !== currentTrack?.track ||
-          (!isPlaying && data.track === currentTrack?.track)) && (
-          <span
-            className={clsx('block w-[25px]', {
-              'text-primary': data.track === currentTrack?.track
-            })}>
-            {trackIndex}
-          </span>
-        )}
-      {!isHover && isPlaying && data.track === currentTrack?.track && (
-        <Equalizer />
+      {isHoverPauseCurrentTrack && (
+        <span
+          className={clsx('block w-[25px]', {
+            'text-primary': data.track === currentTrack
+          })}>
+          {trackIndex}
+        </span>
       )}
-      {isHover &&
-        (data.track !== currentTrack?.track ||
-          (data.track === currentTrack?.track && !isPlaying)) && (
-          <button className='block' onClick={handleSetTrack}>
-            <HiPlay size='25' />
-          </button>
-        )}
-      {isHover && data.track === currentTrack?.track && isPlaying && (
+      {isPlayingCurrentTrack && <Equalizer />}
+      {playNextTrack && (
+        <button className='block' onClick={handleSetTrack}>
+          <HiPlay size='25' />
+        </button>
+      )}
+      {pauseCurrentTrack && (
         <button className='block' onClick={handlePause}>
           <IoIosPause size='25' />
         </button>

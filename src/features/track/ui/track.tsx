@@ -1,5 +1,8 @@
 import { BASE_URL, Track as ITrack } from '#/shared/api'
 import { formatDate, getFeats } from '#/shared/lib'
+import { useState } from 'react'
+import { TrackFavoriteWrapper } from './track-favorite-wrapper'
+import TrackPlayButton from './track-play-button'
 import { TrackWrapper } from './track-wrapper'
 import styles from './track.module.scss'
 
@@ -9,8 +12,11 @@ interface TrackProps {
 }
 
 export const Track = ({ data, trackIndex }: TrackProps) => {
+  const [isHover, setIsHover] = useState(false)
+
   return (
-    <TrackWrapper data={data} trackIndex={trackIndex}>
+    <TrackWrapper data={data} setIsHover={setIsHover}>
+      <TrackPlayButton data={data} trackIndex={trackIndex} isHover={isHover} />
       <div className={styles.titleBlock}>
         <img
           width={70}
@@ -26,8 +32,12 @@ export const Track = ({ data, trackIndex }: TrackProps) => {
         </div>
       </div>
       <div>{data.title}</div>
-      <div>{formatDate(data.created_at)}</div>
-      <div>fav</div>
+      <div>{formatDate(data.added_at)}</div>
+      <TrackFavoriteWrapper
+        isHover={isHover}
+        favorite={data.favoriteBy}
+        trackId={data.id}
+      />
       <div>{data.duration}</div>
     </TrackWrapper>
   )

@@ -35,7 +35,22 @@ export interface Track {
     photo: string
   }
   duration: string
-  created_at: string
+  added_at: string
+  favoriteBy: TrackFavoriteType
+}
+
+export interface IFavorite {
+  added_at: string
+  id: string
+  trackId: string
+  userId: string
+}
+
+export type TrackFavoriteType = IFavorite | null
+
+export interface IAddTrack {
+  // userId: string
+  trackId: string
 }
 
 export const siftifyApi = {
@@ -59,6 +74,24 @@ export const siftifyApi = {
       return response.data
     } catch (error) {
       console.log(error, 'Error get all tracks')
+    }
+  },
+  addTrackToFavorites: async (body: IAddTrack) => {
+    try {
+      const response = await axiosInstance.post('/track/favorite/add', body)
+      return response.data
+    } catch (error) {
+      console.log(error, 'Error add track to favorite')
+    }
+  },
+  removeTrackFromFavorites: async (id: string) => {
+    try {
+      const response = await axiosInstance.post('/track/favorite/remove', {
+        id
+      })
+      return response.data
+    } catch (error) {
+      console.log(error, 'Error remove track from favorite')
     }
   }
 }

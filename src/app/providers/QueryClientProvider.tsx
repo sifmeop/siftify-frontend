@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const client = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
@@ -19,7 +19,7 @@ const client = new QueryClient({
 
 export const QueryClientProvider = ({ children }: Props) => {
   return (
-    <TanStackQueryClientProvider client={client}>
+    <TanStackQueryClientProvider client={queryClient}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
     </TanStackQueryClientProvider>
