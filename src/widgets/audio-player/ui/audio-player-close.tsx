@@ -6,7 +6,7 @@ export const AudioPlayerClose = () => {
 
   return (
     <button className='absolute top-2 right-2' onClick={closePlayer}>
-      <AiOutlineClose size={30} fill='black' />
+      <AiOutlineClose size={30} fill='white' />
     </button>
   )
 }

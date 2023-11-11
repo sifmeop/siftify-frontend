@@ -1,0 +1,17 @@
+@import '/src/app/styles/mixins.scss';
+
+.aside {
+  width: min(400px, 100%);
+}
+
+.navigation {
+  @include mainBox;
+}
+
+.link {
+  @apply flex items-center font-semibold gap-4 text-lg opacity-80 hover:opacity-100 transition-opacity;
+}
+
+.activeLink {
+  opacity: 1;
+}

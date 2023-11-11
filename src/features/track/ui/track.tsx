@@ -1,10 +1,12 @@
-import { BASE_URL, Track as ITrack } from '#/shared/api'
-import { formatDate, getFeats } from '#/shared/lib'
+import { Track as ITrack } from '#/shared/api'
 import { useState } from 'react'
+import { TrackAddedDate } from './track-added-date'
 import { TrackFavoriteWrapper } from './track-favorite-wrapper'
 import TrackPlayButton from './track-play-button'
 import { TrackWrapper } from './track-wrapper'
-import styles from './track.module.scss'
+
+import { TrackAlbumLink } from './trackAlbumLink'
+import { TrackTitleBox } from './trackTitleBox'
 
 interface TrackProps {
   data: ITrack
@@ -17,25 +19,12 @@ export const Track = ({ data, trackIndex }: TrackProps) => {
   return (
     <TrackWrapper data={data} setIsHover={setIsHover}>
       <TrackPlayButton data={data} trackIndex={trackIndex} isHover={isHover} />
-      <div className={styles.titleBlock}>
-        <img
-          width={70}
-          height={70}
-          src={`${BASE_URL}${data.poster}`}
-          alt={data.title}
-        />
-        <div>
-          <h2 className='mb-1'>{data.title}</h2>
-          <div className='text-sm text-white/80'>
-            {getFeats(data.featuring)}
-          </div>
-        </div>
-      </div>
-      <div>{data.title}</div>
-      <div>{formatDate(data.added_at)}</div>
+      <TrackTitleBox {...data} />
+      <TrackAlbumLink {...data} />
+      <TrackAddedDate date={data.added_at} />
       <TrackFavoriteWrapper
         isHover={isHover}
-        favorite={data.favoriteBy}
+        favoriteId={data.favoriteBy?.id}
         trackId={data.id}
       />
       <div>{data.duration}</div>

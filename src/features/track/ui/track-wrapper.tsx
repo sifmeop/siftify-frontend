@@ -13,7 +13,7 @@ export const TrackWrapper = ({
   data,
   setIsHover
 }: TrackWrapperProps) => {
-  const { setCurrentTrack } = useAudioPlayerStore()
+  const setCurrentTrack = useAudioPlayerStore((state) => state.setCurrentTrack)
 
   const onMouseEnter = () => {
     setIsHover(true)
@@ -34,7 +34,8 @@ export const TrackWrapper = ({
       className={styles.wrapper}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onDoubleClick={handleDoubleClick}>
+      // onDoubleClick={handleDoubleClick}
+    >
       {children}
     </div>
   )

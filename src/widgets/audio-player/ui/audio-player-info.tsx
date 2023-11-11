@@ -5,8 +5,13 @@ export const AudioPlayerInfo = () => {
   const currentTrack = useAudioPlayerStore((state) => state.currentTrack!)
 
   return (
-    <div className='text-black flex items-center gap-2'>
-      <img width={80} height={80} src={getUrl(currentTrack.poster)} alt='' />
+    <div className='flex items-center gap-2'>
+      <img
+        width={80}
+        height={80}
+        src={getUrl(currentTrack.cover)}
+        alt={currentTrack.title}
+      />
       <div>
         <p>{currentTrack.title}</p>
         <p>{getFeats(currentTrack.featuring)}</p>

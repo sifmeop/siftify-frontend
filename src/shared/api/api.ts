@@ -24,7 +24,7 @@ export interface SignError {
 export interface Track {
   id: string
   title: string
-  poster: string
+  cover: string
   track: string
   featuring: string[]
   artistId: string
@@ -32,7 +32,7 @@ export interface Track {
   userId: string | null
   artist: {
     name: string
-    photo: string
+    artistPhoto: string
   }
   duration: string
   added_at: string

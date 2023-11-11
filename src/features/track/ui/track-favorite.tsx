@@ -12,7 +12,7 @@ export const TrackFavorite = ({ id }: Props) => {
 
   return (
     <button onClick={handleAdd}>
-      <MdFavorite size='25' fill='#BB2525' />
+      <MdFavorite size='25' fill='var(--color-primary)' />
     </button>
   )
 }

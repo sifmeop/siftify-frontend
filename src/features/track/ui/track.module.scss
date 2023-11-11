@@ -1,10 +1,45 @@
 @import '/src/app/styles/mixins.scss';
 
 .wrapper {
-  @apply flex w-full items-center gap-4 hover:bg-white/10;
   @include tableTracks;
+
+  & span {
+    @apply text-center;
+  }
 }
 
 .titleBlock {
   @apply flex items-center gap-4;
+
+  & h2 {
+    @apply text-lg font-medium;
+  }
+
+  @media (width <= 768px) {
+    & img {
+      @apply w-14 h-14;
+    }
+
+    & h2 {
+      @apply text-sm;
+    }
+
+    & h2 {
+      @apply text-xs;
+    }
+  }
+
+  @media (width <= 425px) {
+    & img {
+      @apply hidden;
+    }
+
+    & h2 {
+      @apply text-sm;
+    }
+
+    & h2 {
+      @apply text-xs;
+    }
+  }
 }

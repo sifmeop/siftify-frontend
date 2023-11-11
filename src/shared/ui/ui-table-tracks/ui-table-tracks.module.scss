@@ -1,5 +1,7 @@
 @import '/src/app/styles/mixins.scss';
 
 .wrapper {
+  @apply items-end pb-3 mb-4 border-b border-b-white/20;
+
   @include tableTracks;
 }

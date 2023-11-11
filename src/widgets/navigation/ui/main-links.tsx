@@ -1,31 +1,38 @@
 import { ROUTES } from '#/shared/constants'
-import clsx from 'clsx'
+import { usePageRedirectOnMismatch } from '#/shared/hooks/usePageRedirectOnMismatch'
+import { cn } from '#/shared/lib'
 import { GoHomeFill, GoSearch } from 'react-icons/go'
 import { Link, useLocation } from 'react-router-dom'
+import styles from './sidebar.module.scss'
 
-export const MainLinks = () => {
+export const Navigation = () => {
   const { pathname } = useLocation()
+  const { handleNavigate } = usePageRedirectOnMismatch()
 
   return (
-    <>
-      <li
-        className={clsx('list-none opacity-80', {
-          'opacity-100': pathname === ROUTES.HOME
-        })}>
-        <Link to={ROUTES.HOME} className='flex items-center gap-2'>
+    <nav className={styles.navigation}>
+      <li className='list-none mb-4'>
+        <Link
+          to={ROUTES.HOME}
+          onClick={handleNavigate}
+          className={cn(styles.link, {
+            [styles.activeLink]: pathname === ROUTES.HOME
+          })}>
           <GoHomeFill size='30px' />
           Home
         </Link>
       </li>
-      <li
-        className={clsx('list-none opacity-80', {
-          'opacity-100': pathname === ROUTES.SEARCH
-        })}>
-        <Link to={ROUTES.SEARCH} className='flex items-center gap-2'>
+      <li className='list-none'>
+        <Link
+          to={ROUTES.SEARCH}
+          onClick={handleNavigate}
+          className={cn(styles.link, {
+            [styles.activeLink]: pathname === ROUTES.SEARCH
+          })}>
           <GoSearch size='30px' />
           Search
         </Link>
       </li>
-    </>
+    </nav>
   )
 }

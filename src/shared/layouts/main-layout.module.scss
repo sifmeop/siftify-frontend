@@ -1,0 +1,11 @@
+@import '/src/app/styles/mixins.scss';
+
+.wrapper {
+  @apply flex gap-4 p-2;
+}
+
+.main {
+  width: 100%;
+
+  @include mainBox;
+}

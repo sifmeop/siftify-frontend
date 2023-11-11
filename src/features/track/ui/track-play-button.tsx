@@ -30,6 +30,12 @@ const TrackPlayButton = ({
     }
   }, [audioRef, isPlaying])
 
+  useEffect(() => {
+    audioRef?.addEventListener('ended', () => {
+      audioRef!.currentTime = 0
+    })
+  }, [])
+
   const handleSetTrack = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

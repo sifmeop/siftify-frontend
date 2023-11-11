@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: '#121212',
-        primary: '#BB2525'
+        black: 'var(--primary-dark)',
+        primary: 'var(--color-primary)'
       }
     }
   },
