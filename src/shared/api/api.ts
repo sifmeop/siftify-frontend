@@ -26,7 +26,7 @@ export interface Track {
   title: string
   cover: string
   track: string
-  featuring: string[]
+  featuring: IFeaturing[]
   artistId: string
   listening: number
   userId: string | null
@@ -37,6 +37,11 @@ export interface Track {
   duration: string
   added_at: string
   favoriteBy: TrackFavoriteType
+}
+
+export interface IFeaturing {
+  id: string
+  name: string
 }
 
 export interface IFavorite {
@@ -68,12 +73,20 @@ export const siftifyApi = {
       console.log(error, 'Error sign-up')
     }
   },
-  getAllTracks: async () => {
+  getAllTracks: async (userId: string) => {
     try {
-      const response = await axiosInstance.get<Track[]>('/track/all')
+      const response = await axiosInstance.get<Track[]>(`/track/all/${userId}`)
       return response.data
     } catch (error) {
       console.log(error, 'Error get all tracks')
+    }
+  },
+  getArtist: async (id: string | undefined) => {
+    try {
+      const response = await axiosInstance.get(`/artist/${id}`)
+      return response.data
+    } catch (error) {
+      console.log(error, 'Error get tracks artist')
     }
   },
   addTrackToFavorites: async (body: IAddTrack) => {
@@ -94,4 +107,14 @@ export const siftifyApi = {
       console.log(error, 'Error remove track from favorite')
     }
   }
+  // listenedTrack: async (id:string) => {
+  //   try {
+  //     const response = await axiosInstance.post('/track/favorite/remove', {
+  //       id
+  //     })
+  //     return response.data
+  //   } catch (error) {
+  //     console.log(error, 'Error remove track from favorite')
+  //   }
+  // }
 }

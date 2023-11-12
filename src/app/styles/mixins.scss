@@ -1,5 +1,9 @@
-@mixin tableTracks {
-  @apply grid gap-3 p-3 text-left items-center w-full text-white/70 hover:bg-white/10 rounded-lg hover:text-white;
+@mixin tableTracks($type) {
+  @apply grid gap-3 p-3 text-left items-center w-full text-white/70;
+
+  @if $type == 'tracks' {
+    @apply hover:bg-white/10 rounded-lg hover:text-white;
+  }
 
   grid-template-columns: 30px 5fr 4fr 3fr 30px 50px;
 

@@ -1,7 +1,7 @@
 @import '/src/app/styles/mixins.scss';
 
 .wrapper {
-  @include tableTracks;
+  @include tableTracks(tracks);
 
   & span {
     @apply text-center;

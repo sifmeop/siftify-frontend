@@ -16,6 +16,9 @@ export const TrackTableList = ({ data, isLoading, isSuccess }: Props) => {
         data?.map((track, index) => (
           <Track key={track.id} data={track} trackIndex={index + 1} />
         ))}
+      {!isLoading && !data && (
+        <h2 className='text-center text-lg'>Список пуст</h2>
+      )}
     </>
   )
 }

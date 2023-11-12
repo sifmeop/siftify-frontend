@@ -6,7 +6,6 @@ interface Props {
 }
 
 export const TrackNoFavorite = ({ trackId }: Props) => {
-  // const userId = useUserStore((state) => state.user!.id)
   const { mutate } = useAddTrackToFavorites()
 
   const handleRemove = async () => mutate({ trackId })

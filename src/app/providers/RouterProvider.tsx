@@ -1,4 +1,4 @@
-import { ArtistPage } from '#/pages/artist-page'
+import { ArtistPageWrapper } from '#/pages/artist-page'
 import { HomePage } from '#/pages/home-page'
 import { NotFoundPage } from '#/pages/not-found-page'
 import { SearchPage } from '#/pages/search-page'
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         element: <SearchPage />
       },
       {
-        path: 'artist/:name',
-        element: <ArtistPage />
+        path: 'artist/:id',
+        element: <ArtistPageWrapper />
       }
     ]
   },
