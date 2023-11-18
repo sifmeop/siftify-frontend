@@ -1,4 +1,5 @@
 import { axiosInstance } from '.'
+import { IUser } from '../store'
 
 export interface SignInDto {
   email: string
@@ -19,6 +20,25 @@ export interface SignError {
       message?: string
     }
   }
+}
+
+export interface IArtist {
+  id: string
+  artistPhoto: string | null
+  name: string
+  tracks: Track[]
+  listening: number
+  Album: IAlbum[]
+}
+
+export interface IAlbum {
+  id: string
+  Artist: IArtist
+  artistId: string
+  title: string
+  cover: string
+  tracks: Track[]
+  listening: number
 }
 
 export interface Track {
@@ -54,7 +74,6 @@ export interface IFavorite {
 export type TrackFavoriteType = IFavorite | null
 
 export interface IAddTrack {
-  // userId: string
   trackId: string
 }
 
@@ -73,17 +92,46 @@ export const siftifyApi = {
       console.log(error, 'Error sign-up')
     }
   },
-  getAllTracks: async (userId: string) => {
+  verifyToken: async () => {
     try {
-      const response = await axiosInstance.get<Track[]>(`/track/all/${userId}`)
+      const response = await axiosInstance.post<IUser>(
+        '/auth/sign-in/verify-token'
+      )
+      return response.data
+    } catch (error) {
+      try {
+        localStorage.removeItem('accessToken')
+      } catch (error) {
+        console.log(error, 'Error remove access token on local storage')
+      }
+      console.log(error, 'Error sign-in with access token')
+    }
+  },
+  getAllTracks: async (userId: string | undefined) => {
+    try {
+      const response = await axiosInstance.get<Track[]>('/track/all', {
+        params: { userId }
+      })
       return response.data
     } catch (error) {
       console.log(error, 'Error get all tracks')
     }
   },
-  getArtist: async (id: string | undefined) => {
+  getTrack: async (trackId: string) => {
     try {
-      const response = await axiosInstance.get(`/artist/${id}`)
+      const response = await axiosInstance.get<Track>('/track', {
+        params: { trackId }
+      })
+      return response.data
+    } catch (error) {
+      console.log(error, 'Error get all tracks')
+    }
+  },
+  getArtist: async (artistId: string) => {
+    try {
+      const response = await axiosInstance.get<IArtist>('/artist', {
+        params: { artistId }
+      })
       return response.data
     } catch (error) {
       console.log(error, 'Error get tracks artist')

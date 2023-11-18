@@ -1,24 +1,30 @@
 import { ArtistPageWrapper } from '#/pages/artist-page'
 import { HomePage } from '#/pages/home-page'
 import { NotFoundPage } from '#/pages/not-found-page'
+import { ProfilePage } from '#/pages/profile-page'
 import { SearchPage } from '#/pages/search-page'
 import { SignInPage } from '#/pages/sign-in-page'
 import { SignUpPage } from '#/pages/sign-up-page'
-import { AuthLayout, MainLayout } from '#/shared/layouts'
+import { TrackPageWrapper } from '#/pages/track-page/track-page'
+import { AuthGuard, AuthLayout, MainLayout } from '#/shared/layouts'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      // <AuthGuard>*/}
-      <MainLayout />
-      // </AuthGuard>
+      <AuthGuard>
+        <MainLayout />
+      </AuthGuard>
     ),
     children: [
       {
         element: <HomePage />,
         index: true
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />
       },
       {
         path: 'search',
@@ -27,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: 'artist/:id',
         element: <ArtistPageWrapper />
+      },
+      {
+        path: 'track/:id',
+        element: <TrackPageWrapper />
       }
     ]
   },

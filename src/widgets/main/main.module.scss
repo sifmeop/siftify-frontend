@@ -1,0 +1,8 @@
+@import '/src/app/styles/mixins.scss';
+
+.main {
+  width: 100%;
+  grid-area: main;
+
+  @include mainBox;
+}

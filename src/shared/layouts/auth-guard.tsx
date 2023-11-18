@@ -1,17 +1,31 @@
-import { useUserStore } from '#/entities/auth'
-import { Navigate } from 'react-router-dom'
-import { ROUTES } from '../constants'
+import { useVerifyToken } from '#/entities/auth/api/verify-token'
+import { useLayoutEffect, useState } from 'react'
+import { UiFullScreenLoader } from '../ui/ui-full-screen-loader'
 
 interface AuthGuardProps {
   children: React.ReactNode
 }
 
 export const AuthGuard = ({ children }: AuthGuardProps) => {
-  const { user } = useUserStore()
+  const [isLoading, setIsLoading] = useState(true)
 
-  if (!user) {
-    return <Navigate to={ROUTES.SIGN_IN} replace />
+  const { mutateAsync } = useVerifyToken()
+
+  useLayoutEffect(() => {
+    const handleVerify = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken')
+        if (accessToken) await mutateAsync().finally(() => setIsLoading(false))
+      } catch (error) {
+        console.log('Local storage error', error)
+      }
+    }
+    void handleVerify()
+  }, [])
+
+  if (isLoading) {
+    return <UiFullScreenLoader />
   }
 
-  return <>{children}</>
+  return children
 }

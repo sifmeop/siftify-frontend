@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom'
 export const ArtistPageWrapper = () => {
   const { id } = useParams()
 
-  console.log(id, 'id')
-
   if (!id) {
     return <h1 className='text-center text-lg'>ID is undefined</h1>
   }
@@ -16,7 +14,9 @@ export const ArtistPageWrapper = () => {
 const ArtistPage = ({ id }: { id: string }) => {
   const { data } = useGetArtist(id)
 
-  console.log(data, 'data')
+  if (!data) {
+    return <h1 className='text-center text-lg'>Artist undefined</h1>
+  }
 
-  return <div>{id}</div>
+  return <div>{data.name}</div>
 }

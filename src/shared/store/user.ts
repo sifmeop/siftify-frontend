@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export interface User {
+export interface IUser {
   uId: number
   id: string
   email: string
@@ -13,12 +13,14 @@ export interface User {
   refresh_token: string
 }
 
+type TypeUser = IUser | null
+
 interface UserState {
-  user: User | null
-  setUser: (user: User) => void
+  user: TypeUser
+  setUser: (user: TypeUser) => void
 }
 
 export const useUserStore = create<UserState>((set) => ({
   user: null,
-  setUser: (user: User) => set(() => ({ user }))
+  setUser: (user: TypeUser) => set(() => ({ user }))
 }))

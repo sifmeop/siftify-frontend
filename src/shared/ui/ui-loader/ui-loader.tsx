@@ -1,10 +1,10 @@
 import { CircularProgress } from '@mui/material'
 
 interface Props {
-  isLoading: boolean
+  isLoading?: boolean
 }
 
-export const UiLoader = ({ isLoading }: Props) => {
+export const UiLoader = ({ isLoading = true }: Props) => {
   if (!isLoading) return null
 
   return (

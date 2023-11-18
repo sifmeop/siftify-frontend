@@ -1,0 +1,36 @@
+@import '/src/app/styles/mixins.scss';
+
+.aside {
+  width: 400px;
+  grid-area: sidebar;
+
+  @media (width < 1440px) {
+    width: 300px;
+  }
+
+  @media (width < 1024px) {
+    width: 200px;
+  }
+
+  @media (width < 768px) {
+    width: auto;
+  }
+}
+
+.navigation {
+  @include mainBox;
+}
+
+.link {
+  @apply flex items-center font-semibold gap-4 text-lg opacity-80 hover:opacity-100 transition-opacity;
+
+  @media (width < 768px) {
+    & span {
+      display: none;
+    }
+  }
+}
+
+.activeLink {
+  opacity: 1;
+}

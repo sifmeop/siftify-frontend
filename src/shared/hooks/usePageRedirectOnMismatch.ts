@@ -6,8 +6,8 @@ export const usePageRedirectOnMismatch = () => {
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
 
-    const to = (e.target as HTMLAnchorElement).getAttribute('href')!
     const pathname = window.location.pathname
+    const to = e.currentTarget.attributes.getNamedItem('href')!.value
 
     if (pathname !== to) navigate(to)
   }

@@ -19,7 +19,7 @@ export const Navigation = () => {
             [styles.activeLink]: pathname === ROUTES.HOME
           })}>
           <GoHomeFill size='30px' />
-          Home
+          <span>Home</span>
         </Link>
       </li>
       <li className='list-none'>
@@ -30,7 +30,7 @@ export const Navigation = () => {
             [styles.activeLink]: pathname === ROUTES.SEARCH
           })}>
           <GoSearch size='30px' />
-          Search
+          <span>Search</span>
         </Link>
       </li>
     </nav>
