@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getItemFromLocalStorage } from '../lib/localStorage'
 
 export const BASE_URL = 'http://localhost:5000'
 
@@ -8,7 +9,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken')
+    const token = getItemFromLocalStorage('accessToken')
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }

@@ -1,19 +1,12 @@
-import { Track as ITrack } from '#/shared/api'
-import { useAudioPlayerStore } from '#/shared/store'
+import { useState } from 'react'
 import styles from './track.module.scss'
 
-interface TrackWrapperProps {
-  children: React.ReactNode
-  data: ITrack
-  setIsHover: React.Dispatch<React.SetStateAction<boolean>>
+interface Props {
+  children: ({ isHover }: { isHover: boolean }) => JSX.Element
 }
 
-export const TrackWrapper = ({
-  children,
-  data,
-  setIsHover
-}: TrackWrapperProps) => {
-  const setCurrentTrack = useAudioPlayerStore((state) => state.setCurrentTrack)
+export const TrackWrapper = ({ children }: Props) => {
+  const [isHover, setIsHover] = useState(false)
 
   const onMouseEnter = () => {
     setIsHover(true)
@@ -23,20 +16,12 @@ export const TrackWrapper = ({
     setIsHover(false)
   }
 
-  const handleDoubleClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    if (e.detail === 2) setCurrentTrack(data)
-  }
-
   return (
     <div
       className={styles.wrapper}
       onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      // onDoubleClick={handleDoubleClick}
-    >
-      {children}
+      onMouseLeave={onMouseLeave}>
+      {children({ isHover })}
     </div>
   )
 }

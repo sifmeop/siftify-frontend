@@ -26,7 +26,7 @@ export interface IArtist {
   id: string
   artistPhoto: string | null
   name: string
-  tracks: Track[]
+  tracks: ITrack[]
   listening: number
   Album: IAlbum[]
 }
@@ -37,11 +37,11 @@ export interface IAlbum {
   artistId: string
   title: string
   cover: string
-  tracks: Track[]
+  tracks: ITrack[]
   listening: number
 }
 
-export interface Track {
+export interface ITrack {
   id: string
   title: string
   cover: string
@@ -78,91 +78,50 @@ export interface IAddTrack {
 }
 
 export const siftifyApi = {
-  signIn: async (body: SignInDto) => {
-    try {
-      return axiosInstance.post('/auth/sign-in', body)
-    } catch (error) {
-      console.log(error, 'Error sign-in')
-    }
-  },
-  signUp: async (body: SignUpDto) => {
-    try {
-      return axiosInstance.post('/auth/sign-up', body)
-    } catch (error) {
-      console.log(error, 'Error sign-up')
-    }
-  },
+  signIn: async (body: SignInDto) => axiosInstance.post('/auth/sign-in', body),
+  signUp: async (body: SignUpDto) => axiosInstance.post('/auth/sign-up', body),
   verifyToken: async () => {
-    try {
-      const response = await axiosInstance.post<IUser>(
-        '/auth/sign-in/verify-token'
-      )
-      return response.data
-    } catch (error) {
-      try {
-        localStorage.removeItem('accessToken')
-      } catch (error) {
-        console.log(error, 'Error remove access token on local storage')
-      }
-      console.log(error, 'Error sign-in with access token')
-    }
+    const response = await axiosInstance.post<IUser>(
+      '/auth/sign-in/verify-token'
+    )
+    return response.data
   },
   getAllTracks: async (userId: string | undefined) => {
-    try {
-      const response = await axiosInstance.get<Track[]>('/track/all', {
-        params: { userId }
-      })
-      return response.data
-    } catch (error) {
-      console.log(error, 'Error get all tracks')
-    }
+    const response = await axiosInstance.get<ITrack[]>('/track/all', {
+      params: { userId }
+    })
+    return response.data
   },
   getTrack: async (trackId: string) => {
-    try {
-      const response = await axiosInstance.get<Track>('/track', {
-        params: { trackId }
-      })
-      return response.data
-    } catch (error) {
-      console.log(error, 'Error get all tracks')
-    }
+    const response = await axiosInstance.get<ITrack>('/track', {
+      params: { trackId }
+    })
+    return response.data
   },
   getArtist: async (artistId: string) => {
-    try {
-      const response = await axiosInstance.get<IArtist>('/artist', {
-        params: { artistId }
-      })
-      return response.data
-    } catch (error) {
-      console.log(error, 'Error get tracks artist')
-    }
+    const response = await axiosInstance.get<IArtist>('/artist', {
+      params: { artistId }
+    })
+    return response.data
   },
   addTrackToFavorites: async (body: IAddTrack) => {
-    try {
-      const response = await axiosInstance.post('/track/favorite/add', body)
-      return response.data
-    } catch (error) {
-      console.log(error, 'Error add track to favorite')
-    }
+    const response = await axiosInstance.post('/track/favorite/add', body)
+    return response.data
   },
   removeTrackFromFavorites: async (id: string) => {
-    try {
-      const response = await axiosInstance.post('/track/favorite/remove', {
-        id
-      })
-      return response.data
-    } catch (error) {
-      console.log(error, 'Error remove track from favorite')
-    }
+    const response = await axiosInstance.post('/track/favorite/remove', {
+      id
+    })
+    return response.data
+  },
+  listenedTrack: async (id: string) => {
+    const response = await axiosInstance.post('/track/listening', {
+      id
+    })
+    return response.data
+  },
+  search: async (value: string) => {
+    const response = await axiosInstance.get(`/search?value=${value}`)
+    return response.data
   }
-  // listenedTrack: async (id:string) => {
-  //   try {
-  //     const response = await axiosInstance.post('/track/favorite/remove', {
-  //       id
-  //     })
-  //     return response.data
-  //   } catch (error) {
-  //     console.log(error, 'Error remove track from favorite')
-  //   }
-  // }
 }

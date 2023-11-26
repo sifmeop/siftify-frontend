@@ -13,3 +13,19 @@
 .passwordIcon {
   @apply text-black absolute right-2;
 }
+
+.hasIconLeft {
+  @apply pl-8;
+}
+
+.hasIconRight {
+  @apply pr-8;
+}
+
+.iconLeft {
+  @apply text-black absolute left-2 pointer-events-none;
+}
+
+.iconRight {
+  @apply text-black absolute right-2 pointer-events-none;
+}

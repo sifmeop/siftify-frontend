@@ -1,7 +1,10 @@
+import { ChangeVolume } from '#/features/change-volume'
+import { ProgressBar } from '#/features/progress-bar'
+import { Queue } from '#/features/queue'
 import { useAudioPlayerStore } from '#/shared/store'
 import { AudioPlayerClose } from './audio-player-close'
 import { AudioPlayerInfo } from './audio-player-info'
-import { AudioPlayerVolume } from './audio-player-volume'
+import styes from './audio-player.module.scss'
 
 export const AudioPlayer = () => {
   const currentTrack = useAudioPlayerStore((state) => state.currentTrack)
@@ -9,10 +12,13 @@ export const AudioPlayer = () => {
   if (!currentTrack) return null
 
   return (
-    <div className='fixed bottom-0 h-28 w-screen bg-[#000] flex items-center gap-2'>
+    <div className={styes.wrapper}>
       <AudioPlayerInfo />
-      <div></div>
-      <AudioPlayerVolume />
+      <ProgressBar />
+      <div className='flex items-center gap-2 justify-end'>
+        <Queue />
+        <ChangeVolume />
+      </div>
       <AudioPlayerClose />
     </div>
   )

@@ -1,19 +1,24 @@
-import { useAddTrackToFavorites } from '#/entities/track/api/add-track-to-favorites'
 import { useUserStore } from '#/shared/store'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { toast } from 'react-toastify'
+import { useAddTrackToFavorites } from '../model/use-add-to-favorite'
 
 interface Props {
   trackId: string
 }
 
-export const TrackNoFavorite = ({ trackId }: Props) => {
+export const UiAddToFavorite = ({ trackId }: Props) => {
   const { user } = useUserStore()
-  const { mutateAsync } = useAddTrackToFavorites()
+  const { mutateAsync, isLoading } = useAddTrackToFavorites()
 
-  const handleRemove = async () => {
+  const handleAdd = async () => {
     if (!user) {
       toast.error('Нужна авторизация')
+      return
+    }
+
+    if (isLoading) {
+      toast.error('Adding track to favorites...')
       return
     }
 
@@ -21,7 +26,7 @@ export const TrackNoFavorite = ({ trackId }: Props) => {
   }
 
   return (
-    <button onClick={handleRemove}>
+    <button onClick={handleAdd}>
       <MdFavoriteBorder size='25' />
     </button>
   )

@@ -1,15 +1,21 @@
-import { Track } from '#/shared/api'
 import { getUrl } from '#/shared/lib'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { ITrack } from '../api'
+import { getItemFromLocalStorage } from '../lib/localStorage'
+
+type FavoriteByUpdateData = Partial<ITrack>
 
 interface AudioPlayerStore {
   audioRef: HTMLAudioElement | null
-  currentTrack: Track | null
+  currentTrack: ITrack | null
   isPlaying: boolean
   setIsPlaying: (value: boolean) => void
-  setCurrentTrack: (track: Track) => void
+  setCurrentTrack: (track: ITrack) => void
+  updateFavoriteData: (data: FavoriteByUpdateData) => void
   closePlayer: () => void
+  volume: string
+  setVolume: (volume: string) => void
 }
 
 export const useAudioPlayerStore = create<AudioPlayerStore>()(
@@ -18,7 +24,7 @@ export const useAudioPlayerStore = create<AudioPlayerStore>()(
     currentTrack: null,
     isPlaying: false,
     setIsPlaying: (value: boolean) => set(() => ({ isPlaying: value })),
-    setCurrentTrack: (track: Track) => {
+    setCurrentTrack: (track: ITrack) => {
       const { audioRef, currentTrack, isPlaying } = get()
 
       if (currentTrack?.track !== track?.track) {
@@ -48,6 +54,17 @@ export const useAudioPlayerStore = create<AudioPlayerStore>()(
         currentTrack: null,
         isPlaying: false
       }))
-    }
+    },
+    updateFavoriteData: (data: FavoriteByUpdateData) => {
+      const { currentTrack } = get()
+
+      if (data.title === currentTrack?.title) {
+        const updateData = { ...currentTrack, ...data }
+
+        set({ currentTrack: updateData as ITrack })
+      }
+    },
+    volume: getItemFromLocalStorage('volume') ?? '50',
+    setVolume: (volume: string) => set({ volume })
   }))
 )

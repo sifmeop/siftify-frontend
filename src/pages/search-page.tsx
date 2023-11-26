@@ -1,3 +1,9 @@
+import { Search } from '#/features/search'
+
 export const SearchPage = () => {
-  return <div>SearchPage</div>
+  return (
+    <div>
+      <Search />
+    </div>
+  )
 }

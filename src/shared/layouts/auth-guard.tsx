@@ -1,5 +1,6 @@
 import { useVerifyToken } from '#/entities/auth/api/verify-token'
 import { useLayoutEffect, useState } from 'react'
+import { getItemFromLocalStorage } from '../lib/localStorage'
 import { UiFullScreenLoader } from '../ui/ui-full-screen-loader'
 
 interface AuthGuardProps {
@@ -13,12 +14,11 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   useLayoutEffect(() => {
     const handleVerify = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken')
-        if (accessToken) await mutateAsync().finally(() => setIsLoading(false))
-      } catch (error) {
-        console.log('Local storage error', error)
+      const accessToken = getItemFromLocalStorage('accessToken')
+      if (accessToken) {
+        await mutateAsync()
       }
+      setIsLoading(false)
     }
     void handleVerify()
   }, [])

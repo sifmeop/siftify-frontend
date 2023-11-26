@@ -1,9 +1,9 @@
-import { Track } from '#/shared/api'
+import { ITrack } from '#/shared/api'
 import { cn, getFeats, getUrl } from '#/shared/lib'
 import { useAudioPlayerStore } from '#/shared/store'
 import styles from './track.module.scss'
 
-type Props = Track
+type Props = ITrack
 
 export const TrackTitleBox = ({ cover, title, featuring }: Props) => {
   const currentTrackTitle = useAudioPlayerStore(

@@ -3,5 +3,7 @@ export const QUERY_KEYS = {
   ADD_TRACK_TO_FAVORITES: ['add-track-to-favorites'],
   REMOVE_TRACK_FROM_FAVORITES: ['remove-track-from-favorites'],
   GET_ARTIST: ['get-artist'],
-  GET_TRACK: ['get-track']
+  GET_TRACK: ['get-track'],
+  LISTENING_TRACK: ['listening-track'],
+  SEARCH: (value: string) => ['search', value]
 }

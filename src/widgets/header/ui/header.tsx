@@ -2,13 +2,12 @@ import { ROUTES } from '#/shared/constants'
 import { useUserStore } from '#/shared/store'
 import { CgProfile } from 'react-icons/cg'
 import { FiLogIn } from 'react-icons/fi'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './header.module.scss'
 
 export const Header = () => {
   const { user } = useUserStore()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const getLoginBtn = () => {
     // if (user === 'loading') {
@@ -41,7 +40,6 @@ export const Header = () => {
   }
 
   const handleBack = () => {
-    console.log(location, 'location')
     navigate(-1)
   }
 

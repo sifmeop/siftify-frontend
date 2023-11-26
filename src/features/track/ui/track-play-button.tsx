@@ -1,10 +1,11 @@
-import { Track as ITrack } from '#/shared/api'
+import { useListeningTrack } from '#/entities/track/api/listeningTrack'
+import { ITrack } from '#/shared/api'
 import { useAudioPlayerStore } from '#/shared/store'
+import { Equalizer } from '#/shared/ui/equliazer'
 import clsx from 'clsx'
 import { useEffect } from 'react'
 import { HiPlay } from 'react-icons/hi2'
 import { IoIosPause } from 'react-icons/io'
-import { Equalizer } from './equalizer'
 
 interface TrackPlayButtonProps {
   data: ITrack
@@ -17,10 +18,13 @@ const TrackPlayButton = ({
   trackIndex,
   isHover
 }: TrackPlayButtonProps) => {
-  const { audioRef, setCurrentTrack, setIsPlaying, isPlaying } =
-    useAudioPlayerStore()
-
   const currentTrack = useAudioPlayerStore((state) => state.currentTrack?.track)
+  const audioRef = useAudioPlayerStore((state) => state.audioRef)
+  const isPlaying = useAudioPlayerStore((state) => state.isPlaying)
+  const setIsPlaying = useAudioPlayerStore((state) => state.setIsPlaying)
+  const setCurrentTrack = useAudioPlayerStore((state) => state.setCurrentTrack)
+
+  const { mutateAsync } = useListeningTrack()
 
   useEffect(() => {
     if (isPlaying) {
@@ -30,21 +34,15 @@ const TrackPlayButton = ({
     }
   }, [audioRef, isPlaying])
 
-  useEffect(() => {
-    audioRef?.addEventListener('ended', () => {
-      audioRef!.currentTime = 0
-    })
-  }, [])
-
-  const handleSetTrack = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault()
+  const handlePlay = () => {
     setCurrentTrack(data)
+
+    if (data.track !== currentTrack) {
+      mutateAsync(data.id)
+    }
   }
 
-  const handlePause = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
+  const handlePause = () => {
     setIsPlaying(false)
   }
 
@@ -70,7 +68,7 @@ const TrackPlayButton = ({
       )}
       {isPlayingCurrentTrack && <Equalizer />}
       {playNextTrack && (
-        <button className='block' onClick={handleSetTrack}>
+        <button className='block' onClick={handlePlay}>
           <HiPlay size='25' />
         </button>
       )}

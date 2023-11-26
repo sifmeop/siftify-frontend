@@ -1,4 +1,4 @@
-import { Track as ITrack } from '#/shared/api'
+import { ITrack } from '#/shared/api'
 import { getTrackUrl } from '#/shared/lib'
 import { Link } from 'react-router-dom'
 
