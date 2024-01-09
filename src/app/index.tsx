@@ -1,4 +1,4 @@
-import '@fontsource/montserrat'
+import '@fontsource-variable/montserrat'
 import ReactDOM from 'react-dom/client'
 import { Provider } from './providers'
 import './styles/index.scss'

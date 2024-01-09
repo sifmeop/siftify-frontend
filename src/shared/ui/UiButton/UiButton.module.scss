@@ -1,4 +1,12 @@
 .button {
-  @apply w-full block px-4 py-2 rounded-md hover:opacity-80 active:opacity-60 transition-opacity duration-300 disabled:cursor-not-allowed;
+  @apply w-full block px-4 py-2 rounded-md hover:opacity-80 active:opacity-60 transition-opacity duration-300 disabled:cursor-not-allowed border border-primary;
+}
+
+.primary {
+  @apply text-white border-primary;
   background-color: var(--color-primary) !important;
+}
+
+.outlined {
+  @apply border-2 text-primary;
 }

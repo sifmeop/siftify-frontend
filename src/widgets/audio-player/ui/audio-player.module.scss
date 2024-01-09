@@ -1,4 +1,4 @@
 .wrapper {
-  @apply grid fixed left-0 bottom-0 h-28 w-full bg-[#000] items-center gap-2 p-4;
+  @apply grid fixed left-0 bottom-0 h-28 w-full bg-[#000] items-center gap-2 p-4 border-t-2 border-t-[var(--dark)];
   grid-template-columns: 2fr 5fr 2fr;
 }

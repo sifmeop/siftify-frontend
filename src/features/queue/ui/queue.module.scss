@@ -1,0 +1,7 @@
+.queue {
+  position: relative;
+  &_active::after {
+    content: '';
+    @apply absolute w-[5px] h-[5px] -bottom-[5px] left-1/2 translate-x-[-50%] bg-primary rounded-full;
+  }
+}

@@ -4,9 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: 'var(--primary-dark)',
+        black: 'var(--dark)',
         primary: 'var(--color-primary)'
       }
+    },
+    screens: {
+      tablet: { max: '768px' }
     }
   },
   plugins: []

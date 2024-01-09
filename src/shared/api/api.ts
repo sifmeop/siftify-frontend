@@ -1,6 +1,15 @@
 import { axiosInstance } from '.'
 import { IUser } from '../store'
 
+export interface ResponseError {
+  response?: {
+    data?: {
+      message?: string
+      statusCode?: string
+    }
+  }
+}
+
 export interface SignInDto {
   email: string
   password: string
@@ -22,6 +31,12 @@ export interface SignError {
   }
 }
 
+export const enum MediaObjectType {
+  TRACK = 'TRACK',
+  ARTIST = 'ARTIST',
+  ALBUM = 'ALBUM'
+}
+
 export interface IArtist {
   id: string
   artistPhoto: string | null
@@ -29,6 +44,7 @@ export interface IArtist {
   tracks: ITrack[]
   listening: number
   Album: IAlbum[]
+  type: MediaObjectType.ARTIST
 }
 
 export interface IAlbum {
@@ -39,6 +55,7 @@ export interface IAlbum {
   cover: string
   tracks: ITrack[]
   listening: number
+  type: MediaObjectType.ALBUM
 }
 
 export interface ITrack {
@@ -57,6 +74,11 @@ export interface ITrack {
   duration: string
   added_at: string
   favoriteBy: TrackFavoriteType
+  type: MediaObjectType.TRACK
+}
+
+export interface IQueueTrack extends ITrack {
+  queueTrackId: string
 }
 
 export interface IFeaturing {
@@ -73,8 +95,17 @@ export interface IFavorite {
 
 export type TrackFavoriteType = IFavorite | null
 
+export interface ISearch {
+  artists: IArtist[]
+  tracks: ITrack[]
+}
+
 export interface IAddTrack {
   trackId: string
+}
+
+export interface IGetRoleArtists {
+  name: string
 }
 
 export const siftifyApi = {
@@ -104,6 +135,16 @@ export const siftifyApi = {
     })
     return response.data
   },
+  getArtists: async (artistId: string) => {
+    const response = await axiosInstance.get<IArtist>('/artist/all', {
+      params: { artistId }
+    })
+    return response.data
+  },
+  getAllArtists: async () => {
+    const response = await axiosInstance.get<IArtist[]>('/artist/all')
+    return response.data
+  },
   addTrackToFavorites: async (body: IAddTrack) => {
     const response = await axiosInstance.post('/track/favorite/add', body)
     return response.data
@@ -121,7 +162,18 @@ export const siftifyApi = {
     return response.data
   },
   search: async (value: string) => {
-    const response = await axiosInstance.get(`/search?value=${value}`)
+    const response = await axiosInstance.get<ISearch>(`/search?value=${value}`)
     return response.data
+  },
+  getRoleArtists: async (body: IGetRoleArtists) => {
+    const response = await axiosInstance.post<IUser>('/artist', body)
+    return response.data
+  },
+  uploadTrack: async (body: any) => {
+    const response = await axiosInstance.post('/upload/track', body)
+    return response.data
+  },
+  logout: async () => {
+    await axiosInstance.post('/auth/logout')
   }
 }

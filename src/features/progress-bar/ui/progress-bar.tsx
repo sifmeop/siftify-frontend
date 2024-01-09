@@ -1,31 +1,6 @@
 import { useAudioPlayerStore } from '#/shared/store'
-import { Slider, styled } from '@mui/material'
+import { UiSlider } from '#/shared/ui/ui-slider'
 import { useEffect, useState } from 'react'
-
-const CustomSlider = styled(Slider)({
-  color: 'white',
-  width: 500,
-  height: 5,
-  '& .MuiSlider-thumb': {
-    display: 'none',
-    width: 20,
-    height: 20,
-    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-      boxShadow: 'inherit'
-    }
-  },
-  '& .MuiSlider-track': {
-    border: 'none'
-  },
-  '&:hover': {
-    '& .MuiSlider-thumb': {
-      display: 'block'
-    },
-    '& .MuiSlider-track': {
-      backgroundColor: 'var(--color-primary)'
-    }
-  }
-})
 
 export const ProgressBar = () => {
   const audioRef = useAudioPlayerStore((state) => state.audioRef!)
@@ -41,11 +16,6 @@ export const ProgressBar = () => {
         currentTime: audioRef.currentTime,
         duration: audioRef.duration
       })
-
-      if (audioRef.currentTime === audioRef.duration) {
-        audioRef.currentTime = 0
-        audioRef.play()
-      }
     }
     audioRef.addEventListener('timeupdate', handleTimeUpdate)
     return () => {
@@ -53,7 +23,10 @@ export const ProgressBar = () => {
     }
   }, [audioRef])
 
-  const handleChange = (_: Event, value: number | number[]) => {
+  const handleChange = (
+    _: Event | React.SyntheticEvent<Element, Event>,
+    value: number | number[]
+  ) => {
     const nValue = value as number
     audioRef!.currentTime = nValue
   }
@@ -75,11 +48,12 @@ export const ProgressBar = () => {
   return (
     <div className='flex items-center gap-4 justify-center'>
       {formatDuration(trackProgress.currentTime)}
-      <CustomSlider
+      <UiSlider
+        sx={{ width: '500px' }}
         min={0}
         max={trackProgress.duration}
         value={trackProgress.currentTime}
-        onChange={handleChange}
+        onChangeCommitted={handleChange}
       />
       {formatDuration(trackProgress.duration)}
     </div>

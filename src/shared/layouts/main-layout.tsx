@@ -1,4 +1,4 @@
-import { AudioPlayer } from '#/widgets/audio-player'
+import { AudioPlayerWrapper } from '#/widgets/audio-player'
 import { Header } from '#/widgets/header/ui'
 import { Main } from '#/widgets/main'
 import { Sidebar } from '#/widgets/sidebar'
@@ -13,7 +13,7 @@ export const MainLayout = () => {
       <Main>
         <Outlet />
       </Main>
-      <AudioPlayer />
+      <AudioPlayerWrapper />
     </div>
   )
 }

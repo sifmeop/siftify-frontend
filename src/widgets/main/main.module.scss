@@ -1,7 +1,7 @@
 @import '/src/app/styles/mixins.scss';
 
 .main {
-  width: 100%;
+  @apply w-full overflow-y-auto;
   grid-area: main;
 
   @include mainBox;

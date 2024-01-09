@@ -26,7 +26,7 @@ export const UiAddToFavorite = ({ trackId }: Props) => {
   }
 
   return (
-    <button onClick={handleAdd}>
+    <button className='opacity-70 hover:opacity-100' onClick={handleAdd}>
       <MdFavoriteBorder size='25' />
     </button>
   )

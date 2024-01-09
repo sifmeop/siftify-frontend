@@ -2,40 +2,14 @@ import {
   getItemFromLocalStorage,
   setItemToLocalStorage
 } from '#/shared/lib/localStorage'
-import { useAudioPlayerStore } from '#/shared/store'
-import { Slider, styled } from '@mui/material'
+import { useAudioPlayerStore, useVolumeStore } from '#/shared/store'
+import { UiSlider } from '#/shared/ui/ui-slider'
 import { useEffect } from 'react'
 import { TbVolume, TbVolume2, TbVolume3 } from 'react-icons/tb'
 
-const CustomSlider = styled(Slider)({
-  color: 'white',
-  width: 120,
-  height: 5,
-  '& .MuiSlider-thumb': {
-    display: 'none',
-    width: 20,
-    height: 20,
-    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-      boxShadow: 'inherit'
-    }
-  },
-  '& .MuiSlider-track': {
-    border: 'none'
-  },
-  '&:hover': {
-    '& .MuiSlider-thumb': {
-      display: 'block'
-    },
-    '& .MuiSlider-track': {
-      backgroundColor: 'var(--color-primary)'
-    }
-  }
-})
-
 export const ChangeVolume = () => {
   const audioRef = useAudioPlayerStore((state) => state.audioRef)
-  const volume = useAudioPlayerStore((state) => state.volume)
-  const setVolume = useAudioPlayerStore((state) => state.setVolume)
+  const { volume, setVolume } = useVolumeStore()
 
   useEffect(() => {
     if (audioRef) {
@@ -68,18 +42,24 @@ export const ChangeVolume = () => {
 
   const getVolumeIcon = () => {
     if (+volume >= 75) {
-      return <TbVolume size='20px' onClick={handleMute} />
+      return <TbVolume size='25px' onClick={handleMute} />
     } else if (+volume === 0) {
-      return <TbVolume3 size='20px' onClick={handleUnmute} />
+      return <TbVolume3 size='25px' onClick={handleUnmute} />
     } else {
-      return <TbVolume2 size='20px' onClick={handleMute} />
+      return <TbVolume2 size='25px' onClick={handleMute} />
     }
   }
 
   return (
     <div className='flex items-center gap-2'>
       <button>{getVolumeIcon()}</button>
-      <CustomSlider min={0} max={100} value={+volume} onChange={handleChange} />
+      <UiSlider
+        sx={{ width: '120px' }}
+        min={0}
+        max={100}
+        value={+volume}
+        onChange={handleChange}
+      />
     </div>
   )
 }

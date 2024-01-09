@@ -14,7 +14,7 @@ export const getItemFromLocalStorage = (key: string) => {
   }
 }
 
-export const removeItemFromLocalStorage = (key: string) => {
+export const deleteItemFromLocalStorage = (key: string) => {
   try {
     localStorage.removeItem(key)
   } catch (error) {

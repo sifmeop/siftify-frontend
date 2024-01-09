@@ -1,12 +1,14 @@
-import { ITrack } from '#/shared/api'
 import { getTrackUrl } from '#/shared/lib'
 import { Link } from 'react-router-dom'
 
-type Props = ITrack
+interface Props {
+  id: string
+  title: string
+}
 
 export const TrackAlbumLink = ({ title, id }: Props) => {
   return (
-    <Link to={getTrackUrl(id)} className='hover:underline'>
+    <Link to={getTrackUrl(id)} className='w-fit hover:underline'>
       {title}
     </Link>
   )

@@ -7,5 +7,7 @@ export const ROUTES = {
   SIGN_IN: '/auth/sign-in',
   SEARCH: '/search',
   ARTIST: '/artist',
-  TRACK: '/track'
+  TRACK: '/track',
+  QUEUE: '/queue',
+  UPLOAD: '/upload'
 }

@@ -1,1 +1,1 @@
-export { AudioPlayer } from './ui/audio-player'
+export { AudioPlayerWrapper } from './ui/audio-player'

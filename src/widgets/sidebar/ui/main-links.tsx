@@ -11,28 +11,30 @@ export const Navigation = () => {
 
   return (
     <nav className={styles.navigation}>
-      <li className='list-none mb-4'>
-        <Link
-          to={ROUTES.HOME}
-          onClick={handleNavigate}
-          className={cn(styles.link, {
-            [styles.activeLink]: pathname === ROUTES.HOME
-          })}>
-          <GoHomeFill size='30px' />
-          <span>Home</span>
-        </Link>
-      </li>
-      <li className='list-none'>
-        <Link
-          to={ROUTES.SEARCH}
-          onClick={handleNavigate}
-          className={cn(styles.link, {
-            [styles.activeLink]: pathname === ROUTES.SEARCH
-          })}>
-          <GoSearch size='30px' />
-          <span>Search</span>
-        </Link>
-      </li>
+      <ul>
+        <li className='list-none mb-4'>
+          <Link
+            to={ROUTES.HOME}
+            onClick={handleNavigate}
+            className={cn(styles.link, {
+              [styles.activeLink]: pathname === ROUTES.HOME
+            })}>
+            <GoHomeFill size='30px' />
+            <span>Home</span>
+          </Link>
+        </li>
+        <li className='list-none'>
+          <Link
+            to={ROUTES.SEARCH}
+            onClick={handleNavigate}
+            className={cn(styles.link, {
+              [styles.activeLink]: pathname === ROUTES.SEARCH
+            })}>
+            <GoSearch size='30px' />
+            <span>Search</span>
+          </Link>
+        </li>
+      </ul>
     </nav>
   )
 }

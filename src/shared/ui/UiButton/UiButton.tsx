@@ -5,18 +5,22 @@ import styles from './UiButton.module.scss'
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
   loader?: boolean
+  variant?: 'primary' | 'outlined'
 }
 
 export const UiButton = ({
   children,
   className,
   loader = false,
+  variant = 'primary',
   ...props
 }: Props) => {
   return (
     <button
       className={clsx(styles.button, className, {
-        'grid place-items-center': loader
+        'grid place-items-center': loader,
+        [styles.primary]: variant === 'primary',
+        [styles.outlined]: variant === 'outlined'
       })}
       {...props}>
       {children}

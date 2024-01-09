@@ -1,7 +1,6 @@
 import { IoArrowBackOutline } from 'react-icons/io5'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ROUTES } from '../constants'
-import { useUserStore } from '../store'
 
 interface AuthLayoutProps {
   title: string
@@ -9,12 +8,6 @@ interface AuthLayoutProps {
 }
 
 export const AuthLayout = ({ title, children }: AuthLayoutProps) => {
-  const { user } = useUserStore()
-
-  if (user) {
-    return <Navigate to={ROUTES.HOME} replace />
-  }
-
   const isSignUp = title === 'Sign Up'
 
   return (

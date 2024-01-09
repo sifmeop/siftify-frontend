@@ -18,6 +18,7 @@ export const AudioPlayerInfo = () => {
         <p>{getFeats(currentTrack.featuring)}</p>
       </div>
       <FavoriteToggle
+        isHover
         favoriteTrackId={currentTrack.favoriteBy?.trackId}
         trackId={currentTrack.id}
       />

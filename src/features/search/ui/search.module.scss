@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex gap-7;
+}
+
+.best_result {
+  min-width: 375px;
+}
+
+.tracks {
+  flex: 1;
+}

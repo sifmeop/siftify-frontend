@@ -5,10 +5,18 @@
     @apply hover:bg-white/10 rounded-lg hover:text-white;
   }
 
-  grid-template-columns: 30px 5fr 4fr 3fr 30px 50px;
+  @if $type == 'tracks_queue' {
+    grid-template-columns: 30px 6fr 2fr 30px 50px 20px;
+  } @else {
+    grid-template-columns: 30px 5fr 4fr 3fr 30px 50px 20px;
+  }
 
   @media (width <= 1000px) {
-    grid-template-columns: 30px 5fr 3fr 30px 50px;
+    @if $type == 'tracks_queue' {
+      grid-template-columns: 30px 5.5fr 2.5fr auto 20px;
+    } @else {
+      grid-template-columns: 30px 5fr 3fr 30px 50px 20px;
+    }
 
     & *:nth-child(4) {
       display: none;
@@ -16,7 +24,8 @@
   }
 
   @media (width <= 768px) {
-    grid-template-columns: 30px 1fr 30px 50px;
+    grid-template-columns: 30px 1fr 20px;
+    grid-template-columns: 30px 1fr 20px;
 
     & *:nth-child(3) {
       display: none;

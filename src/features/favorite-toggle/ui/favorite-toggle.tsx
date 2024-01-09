@@ -2,15 +2,15 @@ import { UiAddToFavorite } from './ui-add-to-favorite'
 import { UiRemoveFromFavorite } from './ui-remove-from-favorite'
 
 interface Props {
-  isHover?: boolean
   favoriteTrackId?: string
   trackId: string
+  isHover: boolean
 }
 
 export const FavoriteToggle = ({
-  isHover = true,
   favoriteTrackId,
-  trackId
+  trackId,
+  isHover
 }: Props) => {
   if (favoriteTrackId) {
     return <UiRemoveFromFavorite trackId={favoriteTrackId} />

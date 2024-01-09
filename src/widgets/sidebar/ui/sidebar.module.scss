@@ -34,3 +34,9 @@
 .activeLink {
   opacity: 1;
 }
+
+@media (width < 768px) {
+  .aside {
+    position: fixed;
+  }
+}

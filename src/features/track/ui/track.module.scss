@@ -6,6 +6,10 @@
   & span {
     @apply text-center;
   }
+
+  &_minimized {
+    @include tableTracks(tracks_queue);
+  }
 }
 
 .titleBlock {
@@ -17,7 +21,7 @@
 
   @media (width <= 768px) {
     & img {
-      @apply w-14 h-14;
+      @apply w-10 h-10;
     }
 
     & h2 {
@@ -41,5 +45,11 @@
     & h2 {
       @apply text-xs;
     }
+  }
+}
+
+.duration {
+  @media (width <= 768px) {
+    @apply hidden;
   }
 }

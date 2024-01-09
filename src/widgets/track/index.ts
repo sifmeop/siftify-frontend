@@ -1,1 +1,1 @@
-export { Track } from './ui/track'
+export { Track } from './track'

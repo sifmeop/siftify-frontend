@@ -1,5 +1,5 @@
 import { useGetAllTracks } from '#/entities/track'
-import { TrackTableList } from '#/entities/trackTableList/trackTableList'
+import { TrackTableList } from '#/entities/trackTableList'
 
 export const HomePage = () => {
   const data = useGetAllTracks()

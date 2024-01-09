@@ -34,7 +34,7 @@ export const Header = () => {
     return (
       <Link to={ROUTES.PROFILE} className='flex items-center gap-2'>
         <CgProfile size='30px' />
-        Профиль
+        Profile
       </Link>
     )
   }
