@@ -1,5 +1,5 @@
 import { siftifyApi } from '#/shared/api'
-import { IAddTrack, ITrack } from '#/shared/api/api'
+import { IFavoriteTrackBody, ITrack } from '#/shared/api/api'
 import { QUERY_KEYS } from '#/shared/constants'
 import { useAudioPlayerStore } from '#/shared/store'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -12,7 +12,7 @@ export const useAddTrackToFavorites = () => {
     (state) => state.updateFavoriteData
   )
 
-  const updateData = async (data: IAddTrack) => {
+  const updateData = async (data: IFavoriteTrackBody) => {
     await queryClient.cancelQueries({
       queryKey: QUERY_KEYS.ADD_TRACK_TO_FAVORITES
     })
@@ -45,7 +45,8 @@ export const useAddTrackToFavorites = () => {
 
   return useMutation({
     mutationKey: QUERY_KEYS.ADD_TRACK_TO_FAVORITES,
-    mutationFn: (body: IAddTrack) => siftifyApi.addTrackToFavorites(body),
+    mutationFn: (body: IFavoriteTrackBody) =>
+      siftifyApi.addTrackToFavorites(body),
     onMutate: updateData,
     onSuccess: updateData,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -20,14 +20,22 @@ export interface IUser {
   updatedAt: Date
   access_token: string
   refresh_token: string
-  artistId?: string
-  artistName?: string
+  artist?: IUserArtist
+}
+
+interface IUserArtist {
+  id: string
+  artistPhoto: string | null
+  name: string
+  listening: number
+  userId: string
 }
 
 type TypeUser = IUser | null
 
 interface UserState {
   user: TypeUser
+  isAuth: boolean
   setUser: (user: TypeUser) => void
   logout: () => void
 }
@@ -35,7 +43,14 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   devtools((set) => ({
     user: null,
-    setUser: (user: TypeUser) => set(() => ({ user })),
+    isAuth: false,
+    setUser: (user: TypeUser) => {
+      if (user) {
+        set(() => ({ user, isAuth: true }))
+      } else {
+        set(() => ({ user: null, isAuth: false }))
+      }
+    },
     logout: () => {
       deleteItemFromLocalStorage('accessToken')
       set(() => ({ user: null }))

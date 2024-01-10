@@ -1,5 +1,6 @@
 export { useAudioPlayerStore } from './audio-player'
 export { useQueueStore } from './queue'
 export { useRepeatStore } from './repeat'
+export { useUploadTrackStore } from './upload-tracks'
 export { useUserStore, type IUser } from './user'
 export { useVolumeStore } from './volume'

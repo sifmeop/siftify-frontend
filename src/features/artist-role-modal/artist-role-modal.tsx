@@ -3,6 +3,7 @@ import { useUser } from '#/shared/hooks'
 import { RoleEnum } from '#/shared/store/user'
 import { UiButton } from '#/shared/ui/UiButton'
 import { UiInput } from '#/shared/ui/UiInput'
+import { UiLabel } from '#/shared/ui/ui-label'
 import { UiModal } from '#/shared/ui/ui-modal'
 import { Box } from '@mui/material'
 import { useCallback } from 'react'
@@ -47,9 +48,10 @@ const ArtistRoleModalContent = () => {
         onClose={onClose}
         title='Заполните форму для артиста'>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <UiLabel>Никнейм</UiLabel>
           <UiInput
+            id='Никнейм'
             register={register('name')}
-            label='Никнейм'
             placeholder='Никнейм'
           />
           <Box sx={{ display: 'flex', gap: '12px', marginTop: '12px' }}>

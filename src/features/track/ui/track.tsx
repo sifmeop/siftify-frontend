@@ -48,7 +48,7 @@ export const Track = ({
             fromUserQueue={fromUserQueue}
           />
           <TrackAlbumLink title={data.title} id={data.id} />
-          {!isMinimized && <TrackAddedDate date={data.added_at} />}
+          {!isMinimized && <TrackAddedDate date={data.addedAt} />}
           <FavoriteToggle
             isHover={isHover}
             favoriteTrackId={favoriteTrackId}

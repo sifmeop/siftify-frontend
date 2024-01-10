@@ -9,15 +9,14 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   iconLeft?: React.ReactNode
   iconRight?: React.ReactNode
   classNameContainer?: string
-  label?: string
 }
 
 export const UiInput = ({
   register,
   type = 'text',
-  label,
   iconLeft,
   iconRight,
+  className,
   classNameContainer,
   ...props
 }: Props) => {
@@ -28,17 +27,11 @@ export const UiInput = ({
 
   return (
     <>
-      {label && (
-        <label htmlFor={label} className='text-sm'>
-          {label}
-        </label>
-      )}
       <div className={cn(styles.wrapper, classNameContainer)}>
         {iconLeft && <div className={styles.iconLeft}>{iconLeft}</div>}
         <input
-          id={label}
           {...register}
-          className={cn(styles.input, {
+          className={cn(styles.input, className, {
             [styles.inputPassword]: typeIsPassword,
             [styles.hasIconLeft]: !!iconLeft,
             [styles.hasIconRight]: !!iconRight

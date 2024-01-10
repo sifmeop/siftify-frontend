@@ -36,10 +36,10 @@ export const ProfileUserInfo = () => {
               <td>Дата регистрации</td>
               <td>{createdAt}</td>
             </tr>
-            {user?.artistName && (
+            {user?.artist?.name && (
               <tr>
                 <td>Псевдоним артиста</td>
-                <td>{user.artistName}</td>
+                <td>{user.artist.name}</td>
               </tr>
             )}
           </tbody>

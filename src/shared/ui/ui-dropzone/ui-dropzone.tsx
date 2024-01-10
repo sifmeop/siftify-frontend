@@ -8,9 +8,10 @@ const baseStyle = {
   flexDirection: 'column',
   alignItems: 'center',
   padding: '20px',
-  border: '2px solid #eeeeee',
   borderRadius: '2',
+  borderWidth: '2px',
   borderStyle: 'dashed',
+  borderColor: '#eeeeee',
   backgroundColor: '#fafafa',
   color: '#bdbdbd',
   outline: 'none',
@@ -29,11 +30,6 @@ const rejectStyle = {
   borderColor: '#ff1744'
 }
 
-interface Props {
-  name: string
-  acceptFiles: 'image' | 'audio'
-}
-
 const typeFiles = {
   image: {
     'image/png': ['.png'],
@@ -49,7 +45,13 @@ const titles = {
   audio: 'Перетащите или выберите аудио'
 }
 
-export const UiDropzone = ({ name, acceptFiles }: Props) => {
+interface Props {
+  name: string
+  acceptFiles: 'image' | 'audio'
+  id?: string
+}
+
+export const UiDropzone = ({ name, acceptFiles, id }: Props) => {
   const { register, unregister, setValue, watch } = useFormContext()
 
   const onDrop = useCallback((droppedFiles: File[]) => {
@@ -83,8 +85,8 @@ export const UiDropzone = ({ name, acceptFiles }: Props) => {
   )
 
   return (
-    <section className='container'>
-      <div {...getRootProps({ style })}>
+    <section>
+      <div id={id} {...getRootProps({ style })}>
         <input {...getInputProps()} />
         <p>{titles[acceptFiles]}</p>
       </div>

@@ -72,7 +72,7 @@ export interface ITrack {
     artistPhoto: string
   }
   duration: string
-  added_at: string
+  addedAt: string
   favoriteBy: TrackFavoriteType
   type: MediaObjectType.TRACK
 }
@@ -87,7 +87,7 @@ export interface IFeaturing {
 }
 
 export interface IFavorite {
-  added_at: string
+  addedAt: string
   id: string
   trackId: string
   userId: string
@@ -100,7 +100,7 @@ export interface ISearch {
   tracks: ITrack[]
 }
 
-export interface IAddTrack {
+export interface IFavoriteTrackBody {
   trackId: string
 }
 
@@ -145,14 +145,12 @@ export const siftifyApi = {
     const response = await axiosInstance.get<IArtist[]>('/artist/all')
     return response.data
   },
-  addTrackToFavorites: async (body: IAddTrack) => {
+  addTrackToFavorites: async (body: IFavoriteTrackBody) => {
     const response = await axiosInstance.post('/track/favorite/add', body)
     return response.data
   },
-  removeTrackFromFavorites: async (id: string) => {
-    const response = await axiosInstance.post('/track/favorite/remove', {
-      id
-    })
+  removeTrackFromFavorites: async (body: IFavoriteTrackBody) => {
+    const response = await axiosInstance.post('/track/favorite/remove', body)
     return response.data
   },
   listenedTrack: async (id: string) => {

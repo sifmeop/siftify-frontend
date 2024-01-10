@@ -2,6 +2,7 @@ import { useVerifyToken } from '#/entities/auth/api/verify-token'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getItemFromLocalStorage } from '../lib/localStorage'
+import { useUserStore } from '../store'
 import { UiFullScreenLoader } from '../ui/ui-full-screen-loader'
 
 interface AuthGuardProps {
@@ -11,6 +12,7 @@ interface AuthGuardProps {
 export const AuthGuard = ({ children }: AuthGuardProps) => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
+  const isAuth = useUserStore((state) => state.isAuth)
 
   const { mutateAsync } = useVerifyToken()
 
@@ -30,7 +32,11 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
         setIsLoading(false)
       }
     }
-    handleVerify()
+    if (isAuth) {
+      setIsLoading(false)
+    } else {
+      handleVerify()
+    }
   }, [])
 
   if (isLoading) {

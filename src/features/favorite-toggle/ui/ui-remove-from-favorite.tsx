@@ -15,7 +15,7 @@ export const UiRemoveFromFavorite = ({ trackId }: Props) => {
       return
     }
 
-    await mutateAsync(trackId)
+    await mutateAsync({ trackId })
   }
 
   return (

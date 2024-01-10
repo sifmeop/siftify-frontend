@@ -1,4 +1,5 @@
 import { ITrack, siftifyApi } from '#/shared/api'
+import { IFavoriteTrackBody } from '#/shared/api/api'
 import { QUERY_KEYS } from '#/shared/constants'
 import { useAudioPlayerStore } from '#/shared/store'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -13,8 +14,9 @@ export const useRemoveFromFavorites = () => {
 
   return useMutation({
     mutationKey: QUERY_KEYS.REMOVE_TRACK_FROM_FAVORITES,
-    mutationFn: (id: string) => siftifyApi.removeTrackFromFavorites(id),
-    onMutate: async (id) => {
+    mutationFn: (body: IFavoriteTrackBody) =>
+      siftifyApi.removeTrackFromFavorites(body),
+    onMutate: async (body) => {
       await queryClient.cancelQueries({
         queryKey: QUERY_KEYS.ADD_TRACK_TO_FAVORITES
       })
@@ -22,7 +24,9 @@ export const useRemoveFromFavorites = () => {
       const previousTracks: ITrack[] | undefined =
         queryClient.getQueryData(QUERY_KEYS.GET_ALL_TRACKS) ?? []
 
-      const trackIndex = previousTracks?.findIndex((track) => track.id === id)
+      const trackIndex = previousTracks?.findIndex(
+        (track) => track.id === body.trackId
+      )
 
       if (trackIndex !== -1) {
         const findTrack = previousTracks[trackIndex]

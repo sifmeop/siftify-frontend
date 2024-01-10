@@ -35,7 +35,11 @@ const orderOptions = (values: readonly IOption[]) => {
     .concat(values.filter((v) => !v.isFixed))
 }
 
-export const SelectArtists = () => {
+interface Props {
+  id?: string
+}
+
+export const SelectArtists = ({ id }: Props) => {
   const user = useUser()
   const { data, isLoading } = useGetAllArtists()
   const [options, setOptions] = useState<IOption[]>([])
@@ -44,7 +48,9 @@ export const SelectArtists = () => {
 
   useEffect(() => {
     if (data?.length) {
-      const filteredData = data.filter((artist) => artist.id !== user.artistId)
+      const filteredData = data.filter(
+        (artist) => artist.name !== user.artist!.name
+      )
 
       const newOptions = filteredData.map((artist) => ({
         value: artist.id,
@@ -52,7 +58,13 @@ export const SelectArtists = () => {
         isFixed: false
       }))
 
-      setOptions((prev) => [...prev, ...newOptions])
+      newOptions.push({
+        value: user.artist!.id,
+        label: user.artist!.name,
+        isFixed: true
+      })
+
+      setOptions(newOptions)
     }
   }, [data])
 
@@ -71,7 +83,6 @@ export const SelectArtists = () => {
         newValue = options.filter((v) => v.isFixed)
         break
     }
-
     setValue('featuring', orderOptions(newValue))
   }
 
@@ -79,6 +90,7 @@ export const SelectArtists = () => {
 
   return (
     <CreatableSelect
+      id={id}
       isMulti
       styles={styles}
       isClearable={valueWatch?.some((v: IOption) => !v.isFixed)}
