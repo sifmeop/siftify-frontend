@@ -1,13 +1,14 @@
-import { SelectArtists } from '#/entities/select-artists'
 import { useUploadTrack } from '#/entities/track/api/upload'
 import { DropzoneTracks } from '#/features/dropzone-tracks'
 import { ResponseError } from '#/shared/api/api'
-import { useUser } from '#/shared/hooks'
+import { useUploadTrackStore } from '#/shared/store'
 import { UiButton } from '#/shared/ui/UiButton'
 import { UiInput } from '#/shared/ui/UiInput'
-import { UiDropzone } from '#/shared/ui/ui-dropzone'
+import { UiDropzoneCover } from '#/shared/ui/ui-dropzone-cover'
 import { UiLabel } from '#/shared/ui/ui-label'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, Tab, Tabs } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
@@ -18,63 +19,108 @@ const schema = yup.object({
     .test('isFile', 'Please provide a valid file', (value) => {
       return value instanceof File
     })
-    .required('Cover is required'),
-  title: yup.string().required('Title is required'),
-  featuring: yup.array().of(
-    yup.object({
-      label: yup.string(),
-      value: yup.string(),
-      isFixed: yup.boolean()
-    })
-  ),
-  tracks: yup
-    .mixed()
-    .test('isFile', 'Please provide a valid file', (value) => {
-      return value instanceof File && Array.isArray(value)
-    })
-    .required('Track is required')
+    .required('Обложка обязательна'),
+  albumName: yup.string()
 })
 
 type FormData = yup.InferType<typeof schema>
 
 export const UploadTrackPage = () => {
-  const user = useUser()
+  const [value, setValue] = useState(0)
+  const tracks = useUploadTrackStore((state) => state.tracks)
+  const setTracks = useUploadTrackStore((state) => state.setTracks)
 
   const methods = useForm<FormData>({
-    defaultValues: {
-      featuring: [
-        {
-          value: user.artist!.id,
-          label: user.artist!.name,
-          isFixed: true
-        }
-      ],
-      tracks: []
-    },
-    mode: 'onBlur',
     resolver: yupResolver(schema)
   })
 
   const { mutateAsync } = useUploadTrack()
 
   const onSubmit = async (data: FormData) => {
-    console.log(data, 'data')
+    console.log({ ...data, tracks }, 'data')
+
+    if (!tracks.length) {
+      toast.error('Нужно загрузить хотя бы один трек')
+      return
+    }
+
+    if (tracks.length > 1 && value === 0) {
+      setValue(0)
+    }
+
+    if (value === 1 && !data.albumName?.trim().length) {
+      toast.error('Название альбома обязательно')
+      return
+    }
+
+    const checkEmptyTitles = tracks.reduce(
+      (acc, track) => (track.title === '' ? acc + 1 : acc),
+      0
+    )
+
+    if (checkEmptyTitles === 1) {
+      toast.error('Заполните название для трека')
+      return
+    } else if (checkEmptyTitles > 1) {
+      toast.error('Заполните название для треков')
+      return
+    }
+
+    const titles = new Set()
+    for (const track of tracks) {
+      if (titles.has(track.title)) {
+        toast.error('Названия треков должны быть уникальными')
+        return
+      } else {
+        titles.add(track.title)
+      }
+    }
 
     const formData = new FormData()
 
     const cover = data.cover as File
-    const tracks = data.tracks as File
-    const featuring = data.featuring?.map(({ label }) => label)
+    const tracksFiles = tracks.map(({ track }) => track)
+    const tracksData = tracks.map((data) => {
+      const featuring = data.featuring.map((feat) => ({
+        label: feat.label,
+        value: feat.value,
+        isNew: feat.__isNew__ ?? false
+      }))
+      const newData = {
+        ...data,
+        featuring: JSON.stringify(featuring),
+        trackFileName: data.track.name
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      delete newData.id
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      delete newData.track
+      return newData
+    })
+
+    if (value === 1) {
+      formData.append('albumName', data.albumName!)
+    }
 
     formData.append('cover', cover)
-    formData.append('tracks', tracks)
-    formData.append('trackTitle', data.title)
-    formData.append('featuring', JSON.stringify(featuring))
+
+    for (let i = 0; i < tracksFiles.length; i++) {
+      formData.append(`tracksFiles`, tracksFiles[i])
+    }
+
+    formData.append('tracksData', JSON.stringify(tracksData))
 
     try {
       await mutateAsync(formData).then(() => {
-        toast.success('Track uploaded')
-        methods.reset()
+        if (value === 0) {
+          toast.success('Трек успешно загружен')
+        } else {
+          toast.success('Треки успешно загружены')
+        }
+        // methods.reset()
+        // setTracks([])
       })
     } catch (e: unknown) {
       console.log(e)
@@ -88,24 +134,50 @@ export const UploadTrackPage = () => {
     }
   }
 
+  useEffect(() => {
+    methods.setValue('albumName', '')
+    if (tracks.length) {
+      setTracks([])
+    }
+  }, [value])
+
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+  }
+
   return (
-    <FormProvider {...methods}>
-      <form
-        className='flex flex-col gap-2'
-        onSubmit={methods.handleSubmit(onSubmit)}>
-        <UiLabel htmlFor='cover'>Обложка</UiLabel>
-        <UiDropzone id='cover' name='cover' acceptFiles='image' />
-        <UiLabel htmlFor='name'>Название трека</UiLabel>
-        <UiInput
-          id='name'
-          register={methods.register('title')}
-          placeholder='Название трека'
-        />
-        <UiLabel htmlFor='featuring'>Фиты</UiLabel>
-        <SelectArtists id='featuring' />
-        <DropzoneTracks />
-        <UiButton type='submit'>Загрузить</UiButton>
-      </form>
-    </FormProvider>
+    <>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          variant='fullWidth'
+          value={value}
+          onChange={handleChange}
+          aria-label='Тип трека'>
+          <Tab label='Сингл' />
+          <Tab label='EP/Альбом' />
+        </Tabs>
+      </Box>
+      <FormProvider {...methods}>
+        <form
+          className='flex mx-auto max-w-3xl flex-col gap-2'
+          onSubmit={methods.handleSubmit(onSubmit)}>
+          <UiLabel htmlFor='cover'>Обложка</UiLabel>
+          <UiDropzoneCover />
+          {value === 1 && (
+            <>
+              <UiLabel htmlFor='cover'>Название альбома</UiLabel>
+              <UiInput
+                register={methods.register('albumName')}
+                placeholder='Название альбома'
+              />
+            </>
+          )}
+          <DropzoneTracks single={value === 0 ? true : false} />
+          <UiButton type='submit' disabled={!tracks.length}>
+            Загрузить
+          </UiButton>
+        </form>
+      </FormProvider>
+    </>
   )
 }

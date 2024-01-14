@@ -1,14 +1,15 @@
 import { useUser } from '#/shared/hooks'
 import { useEffect, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
 import { ActionMeta, OnChangeValue, StylesConfig } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import { useGetAllArtists } from './useGetAllArtists'
+import { useUploadTrackStore } from '#/shared/store'
 
-interface IOption {
+export interface IOption {
   value: string
   label: string
   isFixed: boolean
+  __isNew__?: boolean
 }
 
 const styles: StylesConfig<IOption, true> = {
@@ -36,15 +37,23 @@ const orderOptions = (values: readonly IOption[]) => {
 }
 
 interface Props {
-  id?: string
+  trackId: string
 }
 
-export const SelectArtists = ({ id }: Props) => {
+export const SelectArtists = ({ trackId }: Props) => {
   const user = useUser()
   const { data, isLoading } = useGetAllArtists()
   const [options, setOptions] = useState<IOption[]>([])
-
-  const { setValue, watch } = useFormContext()
+  const [value, setValue] = useState<IOption[]>([
+    {
+      value: user.artist!.id,
+      label: user.artist!.name,
+      isFixed: true
+    }
+  ])
+  const setChangeFeaturing = useUploadTrackStore(
+    (state) => state.setChangeFeaturing
+  )
 
   useEffect(() => {
     if (data?.length) {
@@ -83,19 +92,17 @@ export const SelectArtists = ({ id }: Props) => {
         newValue = options.filter((v) => v.isFixed)
         break
     }
-    setValue('featuring', orderOptions(newValue))
+    setValue(orderOptions(newValue))
+    setChangeFeaturing(trackId, orderOptions(newValue))
   }
-
-  const valueWatch = watch('featuring')
 
   return (
     <CreatableSelect
-      id={id}
       isMulti
       styles={styles}
-      isClearable={valueWatch?.some((v: IOption) => !v.isFixed)}
+      isClearable={value?.some((v: IOption) => !v.isFixed)}
+      value={value}
       isLoading={isLoading}
-      value={valueWatch}
       onChange={onChange}
       closeMenuOnSelect={false}
       options={options}

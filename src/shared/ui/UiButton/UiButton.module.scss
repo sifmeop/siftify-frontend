@@ -1,5 +1,9 @@
 .button {
   @apply w-full block px-4 py-2 rounded-md hover:opacity-80 active:opacity-60 transition-opacity duration-300 disabled:cursor-not-allowed border border-primary;
+  &:disabled {
+    background-color: #b6bbc4 !important;
+    border-color: #b6bbc4;
+  }
 }
 
 .primary {

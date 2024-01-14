@@ -2,18 +2,22 @@ import { useUploadTrackStore } from '#/shared/store'
 import { UiInput } from '#/shared/ui/UiInput'
 import { Equalizer } from '#/shared/ui/equliazer'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { HiPlay } from 'react-icons/hi2'
 import { IoIosPause } from 'react-icons/io'
 import { MdDelete } from 'react-icons/md'
+import { BsList } from 'react-icons/bs'
+import { SelectArtists } from '#/entities/select-artists'
+import { IUploadTrack } from '#/shared/store/upload-tracks'
 
 interface Props {
-  file: File
+  data: IUploadTrack
   trackIndex: number
 }
 
-export const Track = ({ file, trackIndex }: Props) => {
+export const Track = ({ data, trackIndex }: Props) => {
   const [isHover, setIsHover] = useState(false)
+  const setChangeTitle = useUploadTrackStore((state) => state.setChangeTitle)
 
   const {
     isPlaying,
@@ -25,41 +29,57 @@ export const Track = ({ file, trackIndex }: Props) => {
   } = useUploadTrackStore()
 
   const handlePlay = () => {
-    setPlayingTrack(file)
+    setPlayingTrack(data)
   }
 
   //! трек на паузе
   const trackIsPaused =
     !isHover &&
-    (file.name !== playingTrack?.name ||
-      (!isPlaying && file.name === playingTrack?.name))
+    (data.track.name !== playingTrack?.track.name ||
+      (!isPlaying && data.track.name === playingTrack?.track.name))
 
   //! трек играет
   const trackIsPlayed =
-    !isHover && isPlaying && file.name === playingTrack?.name
+    !isHover && isPlaying && data.track.name === playingTrack?.track.name
 
   //! включить следующий трек
-  const playNextTrack = isHover && file.name !== playingTrack?.name
+  const playNextTrack = isHover && data.track.name !== playingTrack?.track.name
 
   //! возобновить трек
-  const resumeTrack = isHover && file.name === playingTrack?.name && !isPlaying
+  const resumeTrack =
+    isHover && data.track.name === playingTrack?.track.name && !isPlaying
 
   //! поставить на паузу трек
-  const pauseTrack = isHover && file.name === playingTrack?.name && isPlaying
+  const pauseTrack =
+    isHover && data.track.name === playingTrack?.track.name && isPlaying
+
+  const handleChangeTitle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value
+      setChangeTitle(data.id, value)
+    },
+    [data.id]
+  )
 
   return (
-    <>
-      <UiInput placeholder='Название песни' className='mb-2' />
+    <div className='flex flex-col gap-2 mb-2 bg-black p-4 rounded-lg border border-white'>
+      <UiInput
+        // value={titleValue}
+        onChange={handleChangeTitle}
+        placeholder='Название песни'
+      />
+      <SelectArtists trackId={data.id} />
       <div
-        className='flex items-center gap-2 justify-between mb-2 p-4 border border-white rounded-lg'
+        className='flex items-center gap-2 justify-between p-4 border border-white rounded-lg'
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}>
         <div className='flex items-center gap-2'>
+          <BsList className='cursor-move' size='25px' />
           <div>
             {trackIsPaused && (
               <span
                 className={clsx('block w-[25px]', {
-                  'text-primary': file.name === playingTrack?.name
+                  'text-primary': data.track.name === playingTrack?.track.name
                 })}>
                 {trackIndex}
               </span>
@@ -81,12 +101,12 @@ export const Track = ({ file, trackIndex }: Props) => {
               </button>
             )}
           </div>
-          {file.name}
+          {data.track.name}
         </div>
-        <button onClick={() => deleteTrack(file)}>
+        <button onClick={() => deleteTrack(data.id)}>
           <MdDelete fill='white' size='25px' />
         </button>
       </div>
-    </>
+    </div>
   )
 }
