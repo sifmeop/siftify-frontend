@@ -9,5 +9,6 @@ export const ROUTES = {
   ARTIST: '/artist',
   TRACK: '/track',
   QUEUE: '/queue',
-  UPLOAD: '/upload'
+  UPLOAD: '/upload',
+  ALBUM: '/album'
 }

@@ -1,3 +1,4 @@
+import { TrackCard } from '#/entities/cards'
 import { useGetTrack } from '#/entities/track/api/get-track'
 import { useParams } from 'react-router-dom'
 
@@ -18,5 +19,17 @@ const TrackPage = ({ id }: { id: string }) => {
     return <h1 className='text-center text-lg'>Track undefined</h1>
   }
 
-  return <div>{data.title}</div>
+  return (
+    <div>
+      <TrackCard
+        title={data.title}
+        cover={data.cover}
+        artistName={data.artist.name}
+        artistId={data.artistId}
+        artistPhoto={data.artist.artistPhoto}
+        createdAt={data.uploadedAt}
+        trackDuration={data.duration}
+      />
+    </div>
+  )
 }

@@ -1,7 +1,7 @@
+import { TrackAlbumLink } from '#/entities/track'
 import { FavoriteToggle } from '#/features/favorite-toggle'
 import { ITrack } from '#/shared/api'
 import { TrackAddedDate } from './track-added-date'
-import { TrackAlbumLink } from './track-album-link'
 import { TrackContextMenu } from './track-context-menu'
 import { TrackDuration } from './track-duration'
 import TrackPlayButton from './track-play-button'
@@ -47,8 +47,8 @@ export const Track = ({
             fromQueue={fromQueue}
             fromUserQueue={fromUserQueue}
           />
-          <TrackAlbumLink title={data.title} id={data.id} />
-          {!isMinimized && <TrackAddedDate date={data.addedAt} />}
+          <TrackAlbumLink id={data.album.id} title={data.album.title} />
+          {!isMinimized && <TrackAddedDate date={data.uploadedAt} />}
           <FavoriteToggle
             isHover={isHover}
             favoriteTrackId={favoriteTrackId}

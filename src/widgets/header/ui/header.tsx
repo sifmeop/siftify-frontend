@@ -45,7 +45,7 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
-      <button onClick={handleBack}>Go back</button>
+      <button onClick={handleBack}>Назад</button>
       {getLoginBtn()}
     </header>
   )

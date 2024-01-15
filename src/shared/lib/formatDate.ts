@@ -3,7 +3,7 @@ export const formatDate = (dateString: string): string => {
   const date = new Date(dateString).getTime()
   const diff = now - date
 
-  const rtf = new Intl.RelativeTimeFormat('en', {
+  const rtf = new Intl.RelativeTimeFormat('ru', {
     numeric: 'always',
     style: 'long',
     localeMatcher: 'best fit'

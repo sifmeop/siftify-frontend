@@ -6,3 +6,5 @@ export const getUrl = (url: string) => `${BASE_URL}${url}`
 export const getArtistUrl = (id: string) => `${ROUTES.ARTIST}/${id}`
 
 export const getTrackUrl = (id: string) => `${ROUTES.TRACK}/${id}`
+
+export const getAlbumUrl = (id: string) => `${ROUTES.ALBUM}/${id}`

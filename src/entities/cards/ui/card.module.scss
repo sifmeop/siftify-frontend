@@ -1,0 +1,15 @@
+.container {
+  @apply flex gap-6 items-end;
+}
+
+.title {
+  @apply text-8xl font-black mt-8 mb-12;
+}
+
+.info {
+  @apply flex items-center gap-1 text-sm;
+}
+
+.dot {
+  @apply w-1 h-1 rounded-full bg-white;
+}

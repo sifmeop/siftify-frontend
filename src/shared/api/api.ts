@@ -47,17 +47,6 @@ export interface IArtist {
   type: MediaObjectType.ARTIST
 }
 
-export interface IAlbum {
-  id: string
-  Artist: IArtist
-  artistId: string
-  title: string
-  cover: string
-  tracks: ITrack[]
-  listening: number
-  type: MediaObjectType.ALBUM
-}
-
 export interface ITrack {
   id: string
   title: string
@@ -75,6 +64,22 @@ export interface ITrack {
   addedAt: string
   favoriteBy: TrackFavoriteType
   type: MediaObjectType.TRACK
+  album: IAlbum
+  uploadedAt: string
+}
+
+export interface IAlbum {
+  id: string
+  title: string
+  cover: string
+  artistId: string
+  artist: {
+    name: string
+    tracks: ITrack[]
+    artistPhoto: string | null
+  }
+  createdAt: string
+  tracks: ITrack[]
 }
 
 export interface IQueueTrack extends ITrack {
@@ -82,7 +87,7 @@ export interface IQueueTrack extends ITrack {
 }
 
 export interface IFeaturing {
-  id: string
+  artistId: string
   name: string
 }
 
@@ -108,6 +113,26 @@ export interface IGetRoleArtists {
   name: string
 }
 
+export interface ITrackId {
+  addedAt: string
+  albumId: string
+  artist: {
+    name: string
+    artistPhoto: string | null
+  }
+  artistPhoto: null
+  name: string
+  artistId: string
+  cover: string
+  duration: string
+  id: string
+  listening: number
+  playlistId: null
+  title: string
+  track: string
+  uploadedAt: string
+}
+
 export const siftifyApi = {
   signIn: async (body: SignInDto) => axiosInstance.post('/auth/sign-in', body),
   signUp: async (body: SignUpDto) => axiosInstance.post('/auth/sign-up', body),
@@ -124,7 +149,7 @@ export const siftifyApi = {
     return response.data
   },
   getTrack: async (trackId: string) => {
-    const response = await axiosInstance.get<ITrack>('/track', {
+    const response = await axiosInstance.get<ITrackId>('/track', {
       params: { trackId }
     })
     return response.data
@@ -173,5 +198,9 @@ export const siftifyApi = {
   },
   logout: async () => {
     await axiosInstance.post('/auth/logout')
+  },
+  getAlbumById: async (id: string) => {
+    const response = await axiosInstance.get<IAlbum>(`/album/${id}`)
+    return response.data
   }
 }

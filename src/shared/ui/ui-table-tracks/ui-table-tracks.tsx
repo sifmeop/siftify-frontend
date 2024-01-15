@@ -5,9 +5,9 @@ export const UiTableTracks = () => {
   return (
     <div className={styles.wrapper}>
       <div className='text-center'>#</div>
-      <div>Title</div>
-      <div>Album</div>
-      <div>Date added</div>
+      <div>Название</div>
+      <div>Альбом</div>
+      <div>Дата добавления</div>
       <div />
       <div>
         <BiTime />

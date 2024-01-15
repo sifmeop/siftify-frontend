@@ -55,10 +55,10 @@ const ArtistRoleModalContent = () => {
             placeholder='Никнейм'
           />
           <Box sx={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-            <UiButton variant='outlined' onClick={onClose}>
+            <UiButton type='button' variant='outlined' onClick={onClose}>
               Отмена
             </UiButton>
-            <UiButton>Подтвердить</UiButton>
+            <UiButton type='submit'>Подтвердить</UiButton>
           </Box>
         </form>
       </UiModal>

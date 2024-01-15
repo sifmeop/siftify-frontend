@@ -1,3 +1,4 @@
+import { AlbumPageWrapper } from '#/pages/album-page/album-page'
 import { ArtistPageWrapper } from '#/pages/artist-page'
 import { HomePage } from '#/pages/home-page'
 import { NotFoundPage } from '#/pages/not-found-page'
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: 'track/:id',
         element: <TrackPageWrapper />
+      },
+      {
+        path: 'album/:id',
+        element: <AlbumPageWrapper />
       },
       {
         path: ROUTES.UPLOAD,

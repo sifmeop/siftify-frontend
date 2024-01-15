@@ -1,4 +1,5 @@
 import { useGetArtist } from '#/entities/artist/api/get-artist'
+import { ArtistCard } from '#/entities/cards'
 import { useParams } from 'react-router-dom'
 
 export const ArtistPageWrapper = () => {
@@ -12,11 +13,27 @@ export const ArtistPageWrapper = () => {
 }
 
 const ArtistPage = ({ id }: { id: string }) => {
-  const { data } = useGetArtist(id)
+  const { data, isLoading, isError, error } = useGetArtist(id)
+
+  if (isLoading) {
+    return 'Loading...'
+  }
+
+  if (isError) {
+    return 'Error'
+  }
 
   if (!data) {
     return <h1 className='text-center text-lg'>Artist undefined</h1>
   }
 
-  return <div>{data.name}</div>
+  return (
+    <div>
+      <ArtistCard
+        name={data.name}
+        photo={data.artistPhoto}
+        listening={data.listening}
+      />
+    </div>
+  )
 }

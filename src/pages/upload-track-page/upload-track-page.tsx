@@ -119,8 +119,8 @@ export const UploadTrackPage = () => {
         } else {
           toast.success('Треки успешно загружены')
         }
-        // methods.reset()
-        // setTracks([])
+        methods.reset()
+        setTracks([])
       })
     } catch (e: unknown) {
       console.log(e)
