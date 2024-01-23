@@ -1,26 +1,31 @@
 import { FavoriteToggle } from '#/features/favorite-toggle'
 import { getFeats, getUrl } from '#/shared/lib'
 import { useAudioPlayerStore } from '#/shared/store'
+import { Link } from 'react-router-dom'
 
 export const AudioPlayerInfo = () => {
-  const currentTrack = useAudioPlayerStore((state) => state.currentTrack!)
+  const playingTrack = useAudioPlayerStore((state) => state.playingTrack!)
 
   return (
     <div className='flex items-center gap-4'>
       <img
         width={50}
         height={50}
-        src={getUrl(currentTrack.cover)}
-        alt={currentTrack.title}
+        src={getUrl(playingTrack.cover)}
+        alt={playingTrack.title}
       />
       <div>
-        <p>{currentTrack.title}</p>
-        <p>{getFeats(currentTrack.featuring)}</p>
+        <Link
+          to={`/album/${playingTrack.album.id}`}
+          className='hover:underline'>
+          {playingTrack.title}
+        </Link>
+        <p>{getFeats(playingTrack.featuring)}</p>
       </div>
       <FavoriteToggle
         isHover
-        favoriteTrackId={currentTrack.favoriteBy?.trackId}
-        trackId={currentTrack.id}
+        trackIsFavorite={playingTrack.trackIsFavorite}
+        trackId={playingTrack.id}
       />
     </div>
   )

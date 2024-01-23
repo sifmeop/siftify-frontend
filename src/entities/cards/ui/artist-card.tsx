@@ -12,12 +12,12 @@ export const ArtistCard = ({ name, photo, listening }: Props) => {
     <div className={styles.container}>
       <div>
         <img
-          className='max-w-[250px]'
+          className='w-[250px]'
           src={photo ? getUrl(photo) : '/default-avatar.jpg'}
           alt={name}
         />
       </div>
-      <div>
+      <div className={styles.left}>
         <span className='text-sm'>АРТИСТ</span>
         <h1 className={styles.title}>{name}</h1>
         <div className='text-sm'>{listening} прослушиваний за месяц</div>

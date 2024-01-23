@@ -1,28 +1,34 @@
-import { useUserStore } from '#/shared/store'
+import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { useAddTrackToFavorites } from '../model/use-add-to-favorite'
 
 interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  query: UseMutateAsyncFunction<any, unknown, string, unknown>
+  isLoadingQuery: boolean
   trackId: string
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UiAddToFavorite = ({ trackId }: Props) => {
-  const { user } = useUserStore()
-  const { mutateAsync, isLoading } = useAddTrackToFavorites()
-
+export const UiAddToFavorite = ({
+  query,
+  isLoadingQuery,
+  trackId,
+  setIsFavorite
+}: Props) => {
   const handleAdd = async () => {
-    if (!user) {
-      toast.error('Нужна авторизация')
+    if (isLoadingQuery) {
+      toast.error('Трек добавляется в любимые...')
       return
     }
 
-    if (isLoading) {
-      toast.error('Adding track to favorites...')
-      return
-    }
+    setIsFavorite(true)
 
-    await mutateAsync({ trackId })
+    try {
+      await query(trackId)
+    } catch (error) {
+      setIsFavorite(false)
+    }
   }
 
   return (

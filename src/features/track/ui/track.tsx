@@ -11,47 +11,51 @@ import { TrackTitleBox } from './trackTitleBox'
 interface TrackProps {
   data: ITrack
   trackList?: ITrack[]
-  trackIndex?: number
+  trackIndex: number
   isMinimized?: boolean
+  tableQueueListId?: string
   fromQueue?: boolean
   fromUserQueue?: boolean
-  tableQueueListId?: string
+  isTrackPage?: boolean
 }
 
 export const Track = ({
   data,
   trackList,
-  trackIndex = 1,
+  trackIndex,
   isMinimized = false,
-  fromQueue = false,
   fromUserQueue = false,
+  isTrackPage = false,
+  fromQueue,
   tableQueueListId
 }: TrackProps) => {
-  const favoriteTrackId = data.favoriteBy?.trackId
-
   return (
-    <TrackWrapper track={data} isMinimized={isMinimized}>
+    <TrackWrapper
+      track={data}
+      isMinimized={isMinimized}
+      isTrackPage={isTrackPage}>
       {({ isHover }) => (
         <>
           <TrackPlayButton
-            tableQueueListId={tableQueueListId}
             fromQueue={fromQueue}
             fromUserQueue={fromUserQueue}
+            tableQueueListId={tableQueueListId}
             trackList={trackList}
             data={data}
             trackIndex={trackIndex}
             isHover={isHover}
           />
-          <TrackTitleBox
-            {...data}
-            fromQueue={fromQueue}
-            fromUserQueue={fromUserQueue}
-          />
-          <TrackAlbumLink id={data.album.id} title={data.album.title} />
-          {!isMinimized && <TrackAddedDate date={data.uploadedAt} />}
+          <TrackTitleBox {...data} fromQueue={fromQueue || fromUserQueue} />
+          {!isTrackPage && (
+            <TrackAlbumLink id={data.album.id} title={data.album.title} />
+          )}
+          {/* {!isMinimized && <TrackAddedDate date={data.uploadedAt} />} */}
+          {!(isMinimized || isTrackPage) && (
+            <TrackAddedDate date={data.addedAt} />
+          )}
           <FavoriteToggle
+            trackIsFavorite={data.trackIsFavorite}
             isHover={isHover}
-            favoriteTrackId={favoriteTrackId}
             trackId={data.id}
           />
           <TrackDuration duration={data.duration} />

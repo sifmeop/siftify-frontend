@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
 import { deleteItemFromLocalStorage } from '../lib/localStorage'
 
 export const enum RoleEnum {
@@ -40,20 +39,18 @@ interface UserState {
   logout: () => void
 }
 
-export const useUserStore = create<UserState>()(
-  devtools((set) => ({
-    user: null,
-    isAuth: false,
-    setUser: (user: TypeUser) => {
-      if (user) {
-        set(() => ({ user, isAuth: true }))
-      } else {
-        set(() => ({ user: null, isAuth: false }))
-      }
-    },
-    logout: () => {
-      deleteItemFromLocalStorage('accessToken')
-      set(() => ({ user: null }))
+export const useUserStore = create<UserState>((set) => ({
+  user: null,
+  isAuth: false,
+  setUser: (user: TypeUser) => {
+    if (user) {
+      set(() => ({ user, isAuth: true }))
+    } else {
+      set(() => ({ user: null, isAuth: false }))
     }
-  }))
-)
+  },
+  logout: () => {
+    deleteItemFromLocalStorage('accessToken')
+    set(() => ({ user: null }))
+  }
+}))

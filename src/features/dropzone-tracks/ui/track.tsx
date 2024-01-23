@@ -1,14 +1,14 @@
+import { SelectArtists } from '#/entities/select-artists'
 import { useUploadTrackStore } from '#/shared/store'
+import { IUploadTrack } from '#/shared/store/upload-tracks'
 import { UiInput } from '#/shared/ui/UiInput'
 import { Equalizer } from '#/shared/ui/equliazer'
 import clsx from 'clsx'
 import { useCallback, useState } from 'react'
+import { BsList } from 'react-icons/bs'
 import { HiPlay } from 'react-icons/hi2'
 import { IoIosPause } from 'react-icons/io'
 import { MdDelete } from 'react-icons/md'
-import { BsList } from 'react-icons/bs'
-import { SelectArtists } from '#/entities/select-artists'
-import { IUploadTrack } from '#/shared/store/upload-tracks'
 
 interface Props {
   data: IUploadTrack
@@ -62,7 +62,7 @@ export const Track = ({ data, trackIndex }: Props) => {
   )
 
   return (
-    <div className='flex flex-col gap-2 mb-2 bg-black p-4 rounded-lg border border-white'>
+    <div className='flex flex-col gap-2 mb-2 bg-black p-4 rounded-md border border-white'>
       <UiInput
         // value={titleValue}
         onChange={handleChangeTitle}
@@ -70,7 +70,7 @@ export const Track = ({ data, trackIndex }: Props) => {
       />
       <SelectArtists trackId={data.id} />
       <div
-        className='flex items-center gap-2 justify-between p-4 border border-white rounded-lg'
+        className='flex items-center gap-2 justify-between p-4 border border-white rounded-md'
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}>
         <div className='flex items-center gap-2'>

@@ -5,3 +5,7 @@
 
   @include tableTracks(titles);
 }
+
+.isTrackPage {
+  @include tableTracks(track_page);
+}

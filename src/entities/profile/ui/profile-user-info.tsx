@@ -22,29 +22,31 @@ export const ProfileUserInfo = () => {
             alt={user.username}
           />
         </div>
-        <table className={styles.info}>
-          <tbody>
-            <tr>
-              <td>ID</td>
-              <td>{user.uId}</td>
-            </tr>
-            <tr>
-              <td>Имя пользователя</td>
-              <td>{user.username}</td>
-            </tr>
-            <tr>
-              <td>Дата регистрации</td>
-              <td>{createdAt}</td>
-            </tr>
-            {user?.artist?.name && (
+        <div>
+          <table className={styles.info}>
+            <tbody>
               <tr>
-                <td>Псевдоним артиста</td>
-                <td>{user.artist.name}</td>
+                <td>ID</td>
+                <td>{user.uId}</td>
               </tr>
-            )}
-          </tbody>
-        </table>
-        <UiButton onClick={logout}>Logout</UiButton>
+              <tr>
+                <td>Имя пользователя</td>
+                <td>{user.username}</td>
+              </tr>
+              <tr>
+                <td>Дата регистрации</td>
+                <td>{createdAt}</td>
+              </tr>
+              {user?.artist?.name && (
+                <tr>
+                  <td>Псевдоним артиста</td>
+                  <td>{user.artist.name}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <UiButton onClick={logout}>Logout</UiButton>
+        </div>
       </div>
     </>
   )

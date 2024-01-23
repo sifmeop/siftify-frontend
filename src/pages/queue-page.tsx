@@ -6,17 +6,17 @@ import { Stack } from '@mui/material'
 
 export const QueuePage = () => {
   const { queueList, userQueueList, clearQueue } = useQueueStore()
-  const currentTrack = useAudioPlayerStore((state) => state.currentTrack)
+  const playingTrack = useAudioPlayerStore((state) => state.playingTrack)
 
   const isQueueEmpty = queueList.length === 0 && userQueueList.length === 0
 
   return (
     <div>
       <UiTitle>Очередь</UiTitle>
-      {currentTrack && (
+      {playingTrack && (
         <>
           <UiSubtitle>Сейчас играет</UiSubtitle>
-          <Track isMinimized data={currentTrack} trackIndex={1} />
+          <Track isMinimized data={playingTrack} trackIndex={1} />
         </>
       )}
       {isQueueEmpty && <UiSubtitle isCentered>Очередь пуста</UiSubtitle>}
@@ -28,7 +28,7 @@ export const QueuePage = () => {
             alignItems='center'>
             <UiSubtitle>Далее в очереди</UiSubtitle>
             <button
-              className='text-sm px-3 py-1 hover:scale-105 transition-transform duration-200 rounded-lg border border-white'
+              className='text-sm px-3 py-1 hover:scale-105 transition-transform duration-200 rounded-md border border-white'
               onClick={clearQueue}>
               Очистить очередь
             </button>

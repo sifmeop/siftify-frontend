@@ -10,5 +10,7 @@ export const ROUTES = {
   TRACK: '/track',
   QUEUE: '/queue',
   UPLOAD: '/upload',
-  ALBUM: '/album'
+  ALBUM: '/album',
+  PLAYLIST: '/playlist',
+  FAVORITE_TRACKS: '/favorite-tracks'
 }

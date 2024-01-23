@@ -6,19 +6,19 @@ type FavoriteByUpdateData = Partial<ITrack>
 
 interface AudioPlayerStore {
   audioRef: HTMLAudioElement | null
-  currentTrack: ITrack | null
+  playingTrack: ITrack | null
   isPlaying: boolean
   setIsPlaying: (value: boolean) => void
   setPlay: () => void
   setPause: () => void
-  setCurrentTrack: (track: ITrack) => void
+  setPlayingTrack: (track: ITrack) => void
   updateFavoriteData: (data: FavoriteByUpdateData) => void
   closePlayer: () => void
 }
 
 export const useAudioPlayerStore = create<AudioPlayerStore>((set, get) => ({
   audioRef: null,
-  currentTrack: null,
+  playingTrack: null,
   isPlaying: false,
   setIsPlaying: (value: boolean) => {
     const { audioRef } = get()
@@ -45,18 +45,18 @@ export const useAudioPlayerStore = create<AudioPlayerStore>((set, get) => ({
 
     set(() => ({ isPlaying: false }), false, 'setPause')
   },
-  setCurrentTrack: (track: ITrack) => {
+  setPlayingTrack: (track) => {
     const { setPause, setPlay } = get()
 
     setPause()
 
     set(
       {
-        currentTrack: track,
+        playingTrack: track,
         audioRef: new Audio(getUrl(track.track))
       },
       false,
-      'setCurrentTrack'
+      'setPlayingTrack'
     )
 
     setPlay()
@@ -67,17 +67,17 @@ export const useAudioPlayerStore = create<AudioPlayerStore>((set, get) => ({
 
     set(() => ({
       audioRef: null,
-      currentTrack: null,
+      playingTrack: null,
       isPlaying: false
     }))
   },
   updateFavoriteData: (data: FavoriteByUpdateData) => {
-    const { currentTrack } = get()
+    const { playingTrack } = get()
 
-    if (data.title === currentTrack?.title) {
-      const updateData = { ...currentTrack, ...data }
+    if (data.title === playingTrack?.title) {
+      const updateData = { ...playingTrack, ...data }
 
-      set({ currentTrack: updateData as ITrack })
+      set({ playingTrack: updateData as ITrack })
     }
   }
 }))

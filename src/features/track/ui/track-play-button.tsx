@@ -11,9 +11,9 @@ interface TrackPlayButtonProps {
   trackList?: ITrack[]
   trackIndex: number
   isHover: boolean
-  fromQueue: boolean
-  fromUserQueue: boolean
   tableQueueListId?: string
+  fromQueue?: boolean
+  fromUserQueue?: boolean
 }
 
 const TrackPlayButton = ({
@@ -21,20 +21,15 @@ const TrackPlayButton = ({
   trackList,
   trackIndex,
   isHover,
+  tableQueueListId,
   fromQueue,
-  fromUserQueue,
-  tableQueueListId
+  fromUserQueue
 }: TrackPlayButtonProps) => {
-  const currentTrack = useAudioPlayerStore((state) => state.currentTrack?.track)
+  const playingTrack = useAudioPlayerStore((state) => state.playingTrack)
   const isPlaying = useAudioPlayerStore((state) => state.isPlaying)
-  const setCurrentTrack = useAudioPlayerStore((state) => state.setCurrentTrack)
+  const nextTrack = useQueueStore((state) => state.nextTrack)
   const setQueueList = useQueueStore((state) => state.setQueueList)
   const queueListId = useQueueStore((state) => state.queueListId)
-  const nextTrack = useQueueStore((state) => state.nextTrack)
-  const nextTrackFromQueue = useQueueStore((state) => state.nextTrackFromQueue)
-  const nextTrackFromUserQueue = useQueueStore(
-    (state) => state.nextTrackFromUserQueue
-  )
   const setPlay = useAudioPlayerStore((state) => state.setPlay)
   const setPause = useAudioPlayerStore((state) => state.setPause)
 
@@ -49,18 +44,22 @@ const TrackPlayButton = ({
     }
 
     // if (fromUserQueue) {
-    // nextTrackFromUserQueue(data)
-    // return
+    //   nextTrackFromUserQueue(data)
+    //   return
     // }
 
     // if (fromQueue) {
-    // nextTrackFromQueue(data)
-    // return
+    //   nextTrackFromQueue(data)
+    //   return
     // }
 
-    setCurrentTrack(data)
+    if (fromUserQueue) {
+      nextTrack(data, 'user')
+    } else {
+      nextTrack(data, 'queue')
+    }
 
-    if (data.track !== currentTrack) {
+    if (data.id !== playingTrack?.id) {
       mutateAsync(data.id)
     }
   }
@@ -68,22 +67,22 @@ const TrackPlayButton = ({
   //! трек на паузе
   const trackIsPaused =
     !isHover &&
-    (data.track !== currentTrack || (!isPlaying && data.track === currentTrack))
+    (data.id !== playingTrack?.id ||
+      (!isPlaying && data.id === playingTrack?.id))
 
   //! трек играет
   const trackIsPlayed =
-    !isHover && isPlaying && data.track === currentTrack && !fromQueue
+    // !isHover && isPlaying && data.id === data.id && !fromQueue
+    !isHover && isPlaying && data.id === playingTrack?.id
 
   //! включить следующий трек
-  const playNextTrack = isHover && data.track !== currentTrack
+  const playNextTrack = isHover && data.id !== playingTrack?.id
 
   //! возобновить трек
-  const resumeTrack = isHover && data.track === currentTrack && !isPlaying
+  const resumeTrack = isHover && data.id === playingTrack?.id && !isPlaying
 
   //! поставить на паузу трек
-  const pauseTrack = isHover && data.track === currentTrack && isPlaying
-
-  //
+  const pauseTrack = isHover && data.id === playingTrack?.id && isPlaying
 
   if (fromQueue || fromUserQueue) {
     return (
@@ -104,7 +103,7 @@ const TrackPlayButton = ({
       {trackIsPaused && (
         <span
           className={clsx('block w-[25px]', {
-            'text-primary': data.track === currentTrack
+            'text-primary': data.id === playingTrack?.id
           })}>
           {trackIndex}
         </span>

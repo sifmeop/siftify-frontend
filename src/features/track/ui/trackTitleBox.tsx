@@ -4,29 +4,25 @@ import { useAudioPlayerStore } from '#/shared/store'
 import styles from './track.module.scss'
 
 type Props = ITrack & {
-  fromQueue: boolean
-  fromUserQueue: boolean
+  fromQueue?: boolean
 }
 
 export const TrackTitleBox = ({
   cover,
   title,
   featuring,
-  fromQueue,
-  fromUserQueue
+  id,
+  fromQueue
 }: Props) => {
-  const currentTrackTitle = useAudioPlayerStore(
-    (state) => state.currentTrack?.title
-  )
+  const playingTrack = useAudioPlayerStore((state) => state.playingTrack)
 
   return (
     <div className={styles.titleBlock}>
-      <img width={70} height={70} src={getUrl(cover)} alt={title} />
+      <img width={50} height={50} src={getUrl(cover)} alt={title} />
       <div>
         <h2
-          className={cn('mb-1 text-white', {
-            'text-primary':
-              currentTrackTitle === title && !fromQueue && !fromUserQueue
+          className={cn(styles.track_name, {
+            'text-primary': id === playingTrack?.id && !fromQueue
           })}>
           {title}
         </h2>

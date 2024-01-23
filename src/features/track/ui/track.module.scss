@@ -10,45 +10,43 @@
   &_minimized {
     @include tableTracks(tracks_queue);
   }
+
+  &_track_page {
+    @include tableTracks(track_page);
+  }
 }
 
 .titleBlock {
   @apply flex items-center gap-4;
 
-  & h2 {
-    @apply text-lg font-medium;
-  }
+  & img {
+    @apply w-[50px] h-[50px] rounded-md;
 
-  @media (width <= 768px) {
-    & img {
+    @media (width <= 768px) {
       @apply w-10 h-10;
     }
 
-    & h2 {
-      @apply text-sm;
-    }
-
-    & h2 {
-      @apply text-xs;
-    }
-  }
-
-  @media (width <= 425px) {
-    & img {
+    @media (width <= 425px) {
       @apply hidden;
-    }
-
-    & h2 {
-      @apply text-sm;
-    }
-
-    & h2 {
-      @apply text-xs;
     }
   }
 }
 
+.track_name {
+  @apply mb-1 text-white text-base font-medium;
+
+  @media (width <= 768px) {
+    @apply text-sm;
+  }
+
+  @media (width <= 425px) {
+    @apply text-xs;
+  }
+}
+
 .duration {
+  @apply text-sm;
+
   @media (width <= 768px) {
     @apply hidden;
   }

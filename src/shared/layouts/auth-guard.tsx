@@ -1,7 +1,11 @@
 import { useVerifyToken } from '#/entities/auth/api/verify-token'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getItemFromLocalStorage } from '../lib/localStorage'
+import { ROUTES } from '../constants'
+import {
+  deleteItemFromLocalStorage,
+  getItemFromLocalStorage
+} from '../lib/localStorage'
 import { useUserStore } from '../store'
 import { UiFullScreenLoader } from '../ui/ui-full-screen-loader'
 
@@ -21,14 +25,16 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
       const accessToken = getItemFromLocalStorage('accessToken')
       if (accessToken) {
         await mutateAsync()
-          .catch(() => {
-            navigate('/')
-          })
-          .finally(() => {
+          .then(() => {
             setIsLoading(false)
           })
+          .catch(() => {
+            navigate(ROUTES.SIGN_IN)
+            setIsLoading(false)
+            deleteItemFromLocalStorage('accessToken')
+          })
       } else {
-        navigate('/')
+        navigate(ROUTES.SIGN_IN)
         setIsLoading(false)
       }
     }

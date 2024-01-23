@@ -1,4 +1,3 @@
-import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../constants'
 
@@ -12,13 +11,7 @@ export const AuthLayout = ({ title, children }: AuthLayoutProps) => {
 
   return (
     <div className='w-screen h-screen grid place-items-center'>
-      <div className='max-w-sm w-full rounded-lg p-8 bg-white/20'>
-        <Link
-          to={ROUTES.HOME}
-          className='flex items-center gap-2 mb-4 text-sm hover:text-primary transition-colors'>
-          <IoArrowBackOutline />
-          Go to home
-        </Link>
+      <div className='max-w-sm w-full rounded-md p-8 bg-white/20'>
         <img
           width={70}
           height={70}

@@ -17,7 +17,6 @@ export const useSignUp = () => {
     onSuccess: (res) => {
       setUser(res?.data)
       setItemToLocalStorage('accessToken', res?.data.access_token)
-      toast.success('Success')
       navigate(ROUTES.HOME)
     },
     onError: (error: SignError) => {

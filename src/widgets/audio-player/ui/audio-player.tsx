@@ -14,9 +14,9 @@ import { AudioPlayerInfo } from './audio-player-info'
 import styes from './audio-player.module.scss'
 
 export const AudioPlayerWrapper = () => {
-  const currentTrack = useAudioPlayerStore((state) => state.currentTrack)
+  const playingTrack = useAudioPlayerStore((state) => state.playingTrack)
 
-  if (!currentTrack) return null
+  if (!playingTrack) return null
 
   return <AudioPlayer />
 }

@@ -8,7 +8,7 @@ interface Props {
 
 export const TrackAlbumLink = ({ id, title }: Props) => {
   return (
-    <Link to={getAlbumUrl(id)} className='w-fit hover:underline'>
+    <Link to={getAlbumUrl(id)} className='text-sm w-fit hover:underline'>
       {title}
     </Link>
   )

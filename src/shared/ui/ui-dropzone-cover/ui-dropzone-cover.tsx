@@ -83,9 +83,8 @@ export const UiDropzoneCover = () => {
         {...getRootProps({
           style: {
             flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: 'grid',
+            placeContent: 'center',
             padding: '20px',
             borderRadius: '6px',
             borderWidth: '2px',
@@ -97,9 +96,9 @@ export const UiDropzoneCover = () => {
             transition: 'border .24s ease-in-out'
           }
         })}>
-        <CiImageOn size='80px' />
+        <CiImageOn size='80px' className='mx-auto' />
         <input {...getInputProps()} />
-        <p>Перетащите или выберите изображение</p>
+        <p className='text-center'>Перетащите или выберите изображение</p>
       </div>
       <ErrorMessage
         as={<p className='text-red-400 text-sm' />}
@@ -109,7 +108,7 @@ export const UiDropzoneCover = () => {
       {!!file && (
         <div className='mt-2'>
           <img
-            className='w-52 h-52 mx-auto'
+            className='w-48 h-48 mx-auto'
             src={URL.createObjectURL(file)}
             alt={file.name}
           />

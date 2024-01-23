@@ -62,7 +62,7 @@ export interface ITrack {
   }
   duration: string
   addedAt: string
-  favoriteBy: TrackFavoriteType
+  trackIsFavorite: boolean
   type: MediaObjectType.TRACK
   album: IAlbum
   uploadedAt: string
@@ -91,25 +91,13 @@ export interface IFeaturing {
   name: string
 }
 
-export interface IFavorite {
-  addedAt: string
-  id: string
-  trackId: string
-  userId: string
-}
-
-export type TrackFavoriteType = IFavorite | null
-
 export interface ISearch {
   artists: IArtist[]
   tracks: ITrack[]
 }
 
-export interface IFavoriteTrackBody {
-  trackId: string
-}
-
 export interface IGetRoleArtists {
+  cover: string
   name: string
 }
 
@@ -133,6 +121,12 @@ export interface ITrackId {
   uploadedAt: string
 }
 
+export interface IPlaylist {
+  id: string
+  title: string
+  isFixed: boolean
+}
+
 export const siftifyApi = {
   signIn: async (body: SignInDto) => axiosInstance.post('/auth/sign-in', body),
   signUp: async (body: SignUpDto) => axiosInstance.post('/auth/sign-up', body),
@@ -142,10 +136,8 @@ export const siftifyApi = {
     )
     return response.data
   },
-  getAllTracks: async (userId: string | undefined) => {
-    const response = await axiosInstance.get<ITrack[]>('/track/all', {
-      params: { userId }
-    })
+  getAllTracks: async () => {
+    const response = await axiosInstance.get<ITrack[]>('/track/all')
     return response.data
   },
   getTrack: async (trackId: string) => {
@@ -170,12 +162,16 @@ export const siftifyApi = {
     const response = await axiosInstance.get<IArtist[]>('/artist/all')
     return response.data
   },
-  addTrackToFavorites: async (body: IFavoriteTrackBody) => {
-    const response = await axiosInstance.post('/track/favorite/add', body)
+  addTrackToFavorites: async (trackId: string) => {
+    const response = await axiosInstance.post('/track/favorite/add', {
+      trackId
+    })
     return response.data
   },
-  removeTrackFromFavorites: async (body: IFavoriteTrackBody) => {
-    const response = await axiosInstance.post('/track/favorite/remove', body)
+  removeTrackFromFavorites: async (trackId: string) => {
+    const response = await axiosInstance.post('/track/favorite/remove', {
+      trackId
+    })
     return response.data
   },
   listenedTrack: async (id: string) => {
@@ -188,11 +184,11 @@ export const siftifyApi = {
     const response = await axiosInstance.get<ISearch>(`/search?value=${value}`)
     return response.data
   },
-  getRoleArtists: async (body: IGetRoleArtists) => {
+  getRoleArtists: async (body: FormData) => {
     const response = await axiosInstance.post<IUser>('/artist', body)
     return response.data
   },
-  uploadTrack: async (body: any) => {
+  uploadTrack: async (body: FormData) => {
     const response = await axiosInstance.post('/upload/track', body)
     return response.data
   },
@@ -202,5 +198,38 @@ export const siftifyApi = {
   getAlbumById: async (id: string) => {
     const response = await axiosInstance.get<IAlbum>(`/album/${id}`)
     return response.data
+  },
+  getPlaylists: async () => {
+    const response = await axiosInstance.get<IPlaylist[]>('/playlist')
+    return response.data
+  },
+  getPlaylistById: async (playlistId: string) => {
+    const response = await axiosInstance.get<IPlaylist>(
+      `/playlist/${playlistId}`
+    )
+    return response.data
+  },
+  createPlaylist: async () => {
+    const response = await axiosInstance.post<IPlaylist>('/playlist')
+    return response.data
+  },
+  deletePlaylist: async (playlistId: string) => {
+    await axiosInstance.delete('/playlist', {
+      data: {
+        playlistId
+      }
+    })
+  },
+  pinPlaylist: async ({
+    playlistId,
+    isFixed
+  }: {
+    playlistId: string
+    isFixed: boolean
+  }) => {
+    await axiosInstance.put('/playlist', {
+      playlistId,
+      isFixed
+    })
   }
 }

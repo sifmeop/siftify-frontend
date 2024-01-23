@@ -11,13 +11,15 @@ interface ChildrenParams {
 interface Props {
   children: ({ isHover }: ChildrenParams) => JSX.Element
   isMinimized?: boolean
+  isTrackPage?: boolean
   track: ITrack
 }
 
 export const TrackWrapper = ({
   children,
   track,
-  isMinimized = false
+  isMinimized = false,
+  isTrackPage = false
 }: Props) => {
   const [isHover, setIsHover] = useState(false)
   const [contextMenu, setContextMenu] = useState<{
@@ -55,7 +57,8 @@ export const TrackWrapper = ({
       ref={trackRef}
       role='row'
       className={cn(styles.wrapper, {
-        [styles.wrapper_minimized]: isMinimized
+        [styles.wrapper_minimized]: isMinimized,
+        [styles.wrapper_track_page]: isTrackPage
       })}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

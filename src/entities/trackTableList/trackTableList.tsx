@@ -2,31 +2,54 @@ import { Track } from '#/features/track'
 import { ITrack } from '#/shared/api'
 import { generateRandomId } from '#/shared/lib'
 import { UiLoader } from '#/shared/ui/ui-loader'
+import { UiSubtitle } from '#/shared/ui/ui-subtitle'
 import { UiTableTracks } from '#/shared/ui/ui-table-tracks'
-import { UseQueryResult } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
-type Props = UseQueryResult<ITrack[] | undefined, unknown>
+interface Props {
+  tracks?: ITrack[]
+  isLoading: boolean
+  isSuccess: boolean
+  isError: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any
+  isTrackPage?: boolean
+}
 
-const tableQueueListId = generateRandomId()
+export const TrackTableList = ({
+  tracks,
+  isLoading,
+  isSuccess,
+  isError,
+  error,
+  isTrackPage = false
+}: Props) => {
+  const errorMessage =
+    error?.response?.data?.message ??
+    error?.message ??
+    'Ошибка получения треков'
 
-export const TrackTableList = ({ data, isLoading, isSuccess }: Props) => {
+  const tableQueueListId = useMemo(generateRandomId, [])
+
   return (
     <>
-      <UiTableTracks />
+      <UiTableTracks isTrackPage={isTrackPage} />
       <UiLoader isLoading={isLoading} />
       {!isLoading &&
         isSuccess &&
-        data?.map((track, index) => (
+        tracks?.map((track, index) => (
           <Track
+            isTrackPage={isTrackPage}
             tableQueueListId={tableQueueListId}
             key={track.id}
             data={track}
-            trackList={data}
+            trackList={tracks}
             trackIndex={index + 1}
           />
         ))}
-      {!isLoading && !data && (
-        <h2 className='text-center text-lg'>Список пуст</h2>
+      {!isLoading && isError && <UiSubtitle>{errorMessage}</UiSubtitle>}
+      {!isLoading && isSuccess && !tracks?.length && (
+        <UiSubtitle isCentered>Список пуст</UiSubtitle>
       )}
     </>
   )

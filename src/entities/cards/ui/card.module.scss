@@ -1,9 +1,13 @@
 .container {
-  @apply flex gap-6 items-end;
+  @apply flex gap-6;
+}
+
+.left {
+  @apply flex flex-col gap-2 justify-between;
 }
 
 .title {
-  @apply text-8xl font-black mt-8 mb-12;
+  @apply text-8xl font-black;
 }
 
 .info {

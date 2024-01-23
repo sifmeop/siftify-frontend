@@ -1,7 +1,7 @@
 @import '/src/app/styles/mixins.scss';
 
 .aside {
-  width: 400px;
+  @apply w-[400px] flex flex-col gap-4;
   grid-area: sidebar;
 
   @media (width < 1440px) {
@@ -17,7 +17,8 @@
   }
 }
 
-.navigation {
+.navigation,
+.media_library {
   @include mainBox;
 }
 

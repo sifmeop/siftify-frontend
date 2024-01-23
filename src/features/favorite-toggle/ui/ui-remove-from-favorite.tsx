@@ -1,21 +1,34 @@
+import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { MdFavorite } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { useRemoveFromFavorites } from '../model/use-remove-from-favorite'
 
 interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  query: UseMutateAsyncFunction<any, unknown, string, unknown>
+  isLoadingQuery: boolean
   trackId: string
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UiRemoveFromFavorite = ({ trackId }: Props) => {
-  const { mutateAsync, isLoading } = useRemoveFromFavorites()
-
+export const UiRemoveFromFavorite = ({
+  query,
+  isLoadingQuery,
+  trackId,
+  setIsFavorite
+}: Props) => {
   const handleRemove = async () => {
-    if (isLoading) {
-      toast.error('Removing track from favorites...')
+    if (isLoadingQuery) {
+      toast.error('Трек удаляется из любимых...')
       return
     }
 
-    await mutateAsync({ trackId })
+    setIsFavorite(false)
+
+    try {
+      await query(trackId)
+    } catch (error) {
+      setIsFavorite(true)
+    }
   }
 
   return (

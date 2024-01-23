@@ -1,7 +1,9 @@
 import { AlbumPageWrapper } from '#/pages/album-page/album-page'
 import { ArtistPageWrapper } from '#/pages/artist-page'
+import { FavoriteTracksPage } from '#/pages/favorite-tracks-page'
 import { HomePage } from '#/pages/home-page'
 import { NotFoundPage } from '#/pages/not-found-page'
+import { PlaylistIdPage } from '#/pages/playlist-id-page'
 import { ProfilePage } from '#/pages/profile-page'
 import { QueuePage } from '#/pages/queue-page'
 import { SearchPage } from '#/pages/search-page'
@@ -39,7 +41,7 @@ const router = createBrowserRouter([
         element: <SearchPage />
       },
       {
-        path: 'artist/:id',
+        path: ROUTES.ARTIST + '/:id',
         element: <ArtistPageWrapper />
       },
       {
@@ -47,12 +49,20 @@ const router = createBrowserRouter([
         element: <TrackPageWrapper />
       },
       {
-        path: 'album/:id',
+        path: ROUTES.ALBUM + '/:id',
         element: <AlbumPageWrapper />
       },
       {
         path: ROUTES.UPLOAD,
         element: <UploadTrackPage />
+      },
+      {
+        path: ROUTES.PLAYLIST + '/:id',
+        element: <PlaylistIdPage />
+      },
+      {
+        path: ROUTES.FAVORITE_TRACKS,
+        element: <FavoriteTracksPage />
       }
     ]
   },

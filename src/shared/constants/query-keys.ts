@@ -9,5 +9,10 @@ export const QUERY_KEYS = {
   UPLOAD: ['upload'],
   SEARCH: (value: string) => ['search', value],
   LOGOUT: ['logout'],
-  ALBUM: (id: string) => ['album', id]
+  ALBUM: (id: string) => ['album', id],
+  CREATE_PLAYLIST: ['create-playlist'],
+  GET_PLAYLISTS: ['get-playlists'],
+  GET_PLAYLISTS_BY_ID: (id: string) => ['get-playlist', id],
+  DELETE_PLAYLIST: ['delete-playlist'],
+  PIN_PLAYLIST: ['pin-playlist']
 }

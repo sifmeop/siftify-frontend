@@ -29,9 +29,9 @@ export const TrackCard = ({
   return (
     <div className={styles.container}>
       <div>
-        <img className='max-w-[250px]' src={getUrl(cover)} alt={title} />
+        <img className='w-[250px]' src={getUrl(cover)} alt={title} />
       </div>
-      <div>
+      <div className={styles.left}>
         <span className='text-sm'>СИНГЛ</span>
         <h1 className={styles.title}>{title}</h1>
         <div className={styles.info}>
