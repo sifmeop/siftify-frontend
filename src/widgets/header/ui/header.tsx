@@ -1,6 +1,6 @@
 import { ROUTES } from '#/shared/constants'
 import { useUserStore } from '#/shared/store'
-import { RoleEnum } from '#/shared/store/user'
+import { EnumRole } from '#/shared/store/user'
 import { CgProfile } from 'react-icons/cg'
 import { FiLogIn } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
@@ -34,7 +34,7 @@ export const Header = () => {
 
     return (
       <div className='flex items-center gap-4'>
-        {user.role === RoleEnum.ARTIST && (
+        {user.role === EnumRole.ARTIST && (
           <Link to={ROUTES.UPLOAD}>Загрузить трек</Link>
         )}
         <Link to={ROUTES.PROFILE} className='flex items-center gap-2'>

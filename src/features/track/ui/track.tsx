@@ -53,11 +53,7 @@ export const Track = ({
           {!(isMinimized || isTrackPage) && (
             <TrackAddedDate date={data.addedAt} />
           )}
-          <FavoriteToggle
-            trackIsFavorite={data.trackIsFavorite}
-            isHover={isHover}
-            trackId={data.id}
-          />
+          <FavoriteToggle isHover={isHover} trackId={data.id} />
           <TrackDuration duration={data.duration} />
           <TrackContextMenu track={data} isHover={isHover} />
         </>

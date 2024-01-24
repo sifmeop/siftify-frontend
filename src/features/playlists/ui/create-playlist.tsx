@@ -1,15 +1,13 @@
 import { useCreatePlaylist } from '#/entities/playlists'
 import { ROUTES } from '#/shared/constants'
-import { cn } from '#/shared/lib'
 import { IconButton } from '@mui/material'
 import { HiPlus } from 'react-icons/hi'
 import { LuLibrary } from 'react-icons/lu'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import styles from './playlist.module.scss'
 
 export const CreatePlaylist = () => {
-  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   const { mutateAsync, isLoading } = useCreatePlaylist()
@@ -31,14 +29,10 @@ export const CreatePlaylist = () => {
 
   return (
     <div className='flex items-center gap-2 justify-between'>
-      <Link
-        className={cn(styles.link, {
-          [styles.link_active]: pathname === ROUTES.PLAYLIST
-        })}
-        to={ROUTES.PLAYLIST}>
+      <div className={styles.link}>
         <LuLibrary size='30px' />
         Моя медиатека
-      </Link>
+      </div>
       <IconButton
         aria-label='create media library'
         color='primary'

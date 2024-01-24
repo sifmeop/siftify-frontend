@@ -26,7 +26,7 @@ export const TrackTitleBox = ({
           })}>
           {title}
         </h2>
-        <h3 className='text-sm'>{getFeats(featuring)}</h3>
+        <h3 className='w-fit text-sm'>{getFeats(featuring)}</h3>
       </div>
     </div>
   )

@@ -22,11 +22,7 @@ export const AudioPlayerInfo = () => {
         </Link>
         <p>{getFeats(playingTrack.featuring)}</p>
       </div>
-      <FavoriteToggle
-        isHover
-        trackIsFavorite={playingTrack.trackIsFavorite}
-        trackId={playingTrack.id}
-      />
+      <FavoriteToggle isHover trackId={playingTrack.id} />
     </div>
   )
 }

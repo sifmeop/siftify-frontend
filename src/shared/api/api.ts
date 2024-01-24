@@ -1,6 +1,11 @@
 import { axiosInstance } from '.'
 import { IUser } from '../store'
 
+export interface ILoginResponse {
+  user: IUser
+  favoriteTracksIds: string[]
+}
+
 export interface ResponseError {
   response?: {
     data?: {
@@ -62,7 +67,6 @@ export interface ITrack {
   }
   duration: string
   addedAt: string
-  trackIsFavorite: boolean
   type: MediaObjectType.TRACK
   album: IAlbum
   uploadedAt: string
@@ -128,10 +132,22 @@ export interface IPlaylist {
 }
 
 export const siftifyApi = {
-  signIn: async (body: SignInDto) => axiosInstance.post('/auth/sign-in', body),
-  signUp: async (body: SignUpDto) => axiosInstance.post('/auth/sign-up', body),
+  signIn: async (body: SignInDto) => {
+    const response = await axiosInstance.post<ILoginResponse>(
+      '/auth/sign-in',
+      body
+    )
+    return response.data
+  },
+  signUp: async (body: SignUpDto) => {
+    const response = await axiosInstance.post<ILoginResponse>(
+      '/auth/sign-up',
+      body
+    )
+    return response.data
+  },
   verifyToken: async () => {
-    const response = await axiosInstance.post<IUser>(
+    const response = await axiosInstance.post<ILoginResponse>(
       '/auth/sign-in/verify-token'
     )
     return response.data
@@ -231,5 +247,9 @@ export const siftifyApi = {
       playlistId,
       isFixed
     })
+  },
+  getFavoriteTracks: async () => {
+    const response = await axiosInstance.get<ITrack[]>('/track/favorites')
+    return response.data
   }
 }

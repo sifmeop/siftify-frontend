@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
 import { useAudioPlayerStore } from '.'
 import { ITrack } from '../api'
 import { IQueueTrack } from '../api/api'
@@ -27,114 +26,107 @@ interface ISetQueueList {
   queueListId?: string
 }
 
-export const useQueueStore = create<IQueue>()(
-  devtools((set, get) => ({
-    lastQueueTrackIndex: null,
-    queueListId: null,
-    prevQueueList: [],
-    userQueueList: [],
-    queueList: [],
-    setQueueList: ({ queueList, queueListId }) => {
-      if (queueListId) {
-        set({ queueList, queueListId }, false, 'setQueueList')
-      } else {
-        set({ queueList }, false, 'setQueueList')
-      }
-    },
-    setUserQueueList: (userQueueList) => {
-      const newUserQueueList = userQueueList.map((track) => ({
-        ...track,
-        queueTrackId: generateRandomId()
-      }))
-      set({ userQueueList: newUserQueueList }, false, 'setUserQueueList')
-    },
-    addTrackToQueue: (track) => {
-      const { userQueueList } = get()
+export const useQueueStore = create<IQueue>((set, get) => ({
+  lastQueueTrackIndex: null,
+  queueListId: null,
+  prevQueueList: [],
+  userQueueList: [],
+  queueList: [],
+  setQueueList: ({ queueList, queueListId }) => {
+    if (queueListId) {
+      set({ queueList, queueListId }, false, 'setQueueList')
+    } else {
+      set({ queueList }, false, 'setQueueList')
+    }
+  },
+  setUserQueueList: (userQueueList) => {
+    const newUserQueueList = userQueueList.map((track) => ({
+      ...track,
+      queueTrackId: generateRandomId()
+    }))
+    set({ userQueueList: newUserQueueList }, false, 'setUserQueueList')
+  },
+  addTrackToQueue: (track) => {
+    const { userQueueList } = get()
 
-      const newQueueList = [
-        { ...track, queueTrackId: generateRandomId() },
-        ...userQueueList
-      ]
+    const newQueueList = [
+      { ...track, queueTrackId: generateRandomId() },
+      ...userQueueList
+    ]
 
-      set({ userQueueList: newQueueList }, false, 'addTrackToQueue')
-    },
-    removeTrackFromQueue: (queueId) => {
-      const { queueList } = get()
+    set({ userQueueList: newQueueList }, false, 'addTrackToQueue')
+  },
+  removeTrackFromQueue: (queueId) => {
+    const { queueList } = get()
 
-      const newQueueList = queueList.filter((track) => track.id !== queueId)
+    const newQueueList = queueList.filter((track) => track.id !== queueId)
 
-      set({ queueList: newQueueList }, false, 'removeTrackFromQueue')
-    },
-    shuffleQueue: () => {
-      const { queueList } = get()
+    set({ queueList: newQueueList }, false, 'removeTrackFromQueue')
+  },
+  shuffleQueue: () => {
+    const { queueList } = get()
 
-      const newQueueList = shuffleTracks(queueList)
+    const newQueueList = shuffleTracks(queueList)
 
-      set(
-        { queueList: newQueueList, prevQueueList: queueList },
-        false,
-        'shuffleQueue'
-      )
-    },
-    unShuffleQueue: () => {
-      const { prevQueueList } = get()
+    set(
+      { queueList: newQueueList, prevQueueList: queueList },
+      false,
+      'shuffleQueue'
+    )
+  },
+  unShuffleQueue: () => {
+    const { prevQueueList } = get()
 
-      set(
-        { queueList: prevQueueList, prevQueueList: [] },
-        false,
-        'unShuffleQueue'
-      )
-    },
-    clearQueue: () => set({ userQueueList: [] }, false, 'clearQueue'),
-    nextTrack: (track, type = 'queue') => {
-      const { userQueueList, setUserQueueList, queueList, setQueueList } = get()
-      const { setPlayingTrack } = useAudioPlayerStore.getState()
+    set(
+      { queueList: prevQueueList, prevQueueList: [] },
+      false,
+      'unShuffleQueue'
+    )
+  },
+  clearQueue: () => set({ userQueueList: [] }, false, 'clearQueue'),
+  nextTrack: (track, type = 'queue') => {
+    const { userQueueList, setUserQueueList, queueList, setQueueList } = get()
+    const { setPlayingTrack } = useAudioPlayerStore.getState()
 
-      if (track) {
-        setPlayingTrack(track)
+    if (track) {
+      setPlayingTrack(track)
 
-        if (type === 'queue' && queueList.length) {
-          const findIndexTrack = queueList.findIndex((t) => t.id === track.id)
+      if (type === 'queue' && queueList.length) {
+        const findIndexTrack = queueList.findIndex((t) => t.id === track.id)
 
-          if (findIndexTrack !== -1) {
-            const newQueueList = [
-              ...queueList.slice(findIndexTrack + 1),
-              ...queueList.slice(0, findIndexTrack + 1)
-            ]
-            setQueueList({ queueList: newQueueList })
-          }
+        if (findIndexTrack !== -1) {
+          const newQueueList = [
+            ...queueList.slice(findIndexTrack + 1),
+            ...queueList.slice(0, findIndexTrack + 1)
+          ]
+          setQueueList({ queueList: newQueueList })
         }
+      }
 
-        if (type === 'user' && userQueueList.length) {
-          const findIndexTrack = userQueueList.findIndex(
-            (t) => t.id === track.id
-          )
+      if (type === 'user' && userQueueList.length) {
+        const findIndexTrack = userQueueList.findIndex((t) => t.id === track.id)
 
-          if (findIndexTrack !== -1) {
-            const newUserQueueList = userQueueList.slice(findIndexTrack + 1)
-            setUserQueueList(newUserQueueList)
-          }
+        if (findIndexTrack !== -1) {
+          const newUserQueueList = userQueueList.slice(findIndexTrack + 1)
+          setUserQueueList(newUserQueueList)
         }
-
-        return
       }
 
-      if (userQueueList.length) {
-        setPlayingTrack(userQueueList[0])
-        const newUserQueueList = userQueueList.slice(1)
-        setUserQueueList(newUserQueueList)
-        return
-      }
+      return
+    }
 
-      if (queueList.length) {
-        setPlayingTrack(queueList[0])
-        const newUserQueueList = [
-          ...queueList.slice(1),
-          ...queueList.slice(0, 1)
-        ]
-        setQueueList({ queueList: newUserQueueList })
-      }
-    },
-    prevTrack: () => {}
-  }))
-)
+    if (userQueueList.length) {
+      setPlayingTrack(userQueueList[0])
+      const newUserQueueList = userQueueList.slice(1)
+      setUserQueueList(newUserQueueList)
+      return
+    }
+
+    if (queueList.length) {
+      setPlayingTrack(queueList[0])
+      const newUserQueueList = [...queueList.slice(1), ...queueList.slice(0, 1)]
+      setQueueList({ queueList: newUserQueueList })
+    }
+  },
+  prevTrack: () => {}
+}))

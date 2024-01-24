@@ -1,4 +1,5 @@
 export const QUERY_KEYS = {
+  VERIFY_TOKEN: ['verify-token'],
   GET_ALL_TRACKS: ['get-all-tracks'],
   ADD_TRACK_TO_FAVORITES: ['add-track-to-favorites'],
   REMOVE_TRACK_FROM_FAVORITES: ['remove-track-from-favorites'],
@@ -14,5 +15,6 @@ export const QUERY_KEYS = {
   GET_PLAYLISTS: ['get-playlists'],
   GET_PLAYLISTS_BY_ID: (id: string) => ['get-playlist', id],
   DELETE_PLAYLIST: ['delete-playlist'],
-  PIN_PLAYLIST: ['pin-playlist']
+  PIN_PLAYLIST: ['pin-playlist'],
+  GET_FAVORITE_TRACKS: ['get-favorite-tracks']
 }

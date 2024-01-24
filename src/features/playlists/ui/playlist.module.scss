@@ -1,5 +1,5 @@
 .link {
-  @apply flex items-center font-semibold gap-4 text-lg opacity-80 hover:opacity-100 transition-opacity;
+  @apply flex items-center font-semibold gap-4 text-lg opacity-80;
 
   &_active {
     opacity: 1;
@@ -13,28 +13,27 @@
 }
 
 .playlist_link {
-  @apply grid items-center gap-x-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-all duration-200;
+  @apply grid items-center gap-x-3 p-2 text-sm rounded-md hover:bg-[#1a1a1a] transition-all duration-200;
   grid-template-columns: 48px 1fr 1fr;
   grid-template-rows: auto auto;
   &_active {
     @apply bg-[#232323] hover:bg-[#393939];
+    & .title {
+      @apply text-primary;
+    }
   }
 }
 
 .cover {
   @apply bg-[#282828] grid place-content-center w-12 h-12 rounded-md;
   grid-area: 1 / 1 / 3 / 2;
-  & img {
-    @apply rounded-md;
-  }
 }
 
 .title {
-  @apply text-primary;
   grid-area: 1 / 2 / 2 / 4;
 }
 
 .info {
-  @apply flex items-center gap-2 text-sm text-[var(--gray)];
+  @apply flex items-center gap-2 text-[var(--gray)];
   grid-area: 2 / 2 / 3 / 4;
 }

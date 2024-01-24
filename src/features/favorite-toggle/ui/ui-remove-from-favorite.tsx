@@ -7,14 +7,12 @@ interface Props {
   query: UseMutateAsyncFunction<any, unknown, string, unknown>
   isLoadingQuery: boolean
   trackId: string
-  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const UiRemoveFromFavorite = ({
   query,
   isLoadingQuery,
-  trackId,
-  setIsFavorite
+  trackId
 }: Props) => {
   const handleRemove = async () => {
     if (isLoadingQuery) {
@@ -22,12 +20,10 @@ export const UiRemoveFromFavorite = ({
       return
     }
 
-    setIsFavorite(false)
-
     try {
       await query(trackId)
     } catch (error) {
-      setIsFavorite(true)
+      toast.error('Не удалось удалить трек из любимых')
     }
   }
 

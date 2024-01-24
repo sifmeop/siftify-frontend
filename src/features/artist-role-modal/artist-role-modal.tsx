@@ -1,6 +1,6 @@
 import { IGetRoleArtists } from '#/shared/api/api'
 import { useUser } from '#/shared/hooks'
-import { RoleEnum } from '#/shared/store/user'
+import { EnumRole } from '#/shared/store/user'
 import { UiButton } from '#/shared/ui/UiButton'
 import { UiInput } from '#/shared/ui/UiInput'
 import { UiDropzoneCover } from '#/shared/ui/ui-dropzone-cover'
@@ -15,7 +15,7 @@ import { useArtistRoleModal } from './useArtistRoleModa'
 export const ArtistRoleModal = () => {
   const { role } = useUser()
 
-  if (role !== RoleEnum.USER) {
+  if (role !== EnumRole.USER) {
     return null
   }
 

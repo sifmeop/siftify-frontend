@@ -1,5 +1,3 @@
-import { memo } from 'react'
-
 interface Props {
   date: string
 }
@@ -34,8 +32,6 @@ const formatDate = (dateString: string): string => {
   }
 }
 
-export const TrackAddedDate = memo(({ date }: Props) => {
-  return <span className='text-sm'>{formatDate(date)}</span>
-})
-
-TrackAddedDate.displayName = 'TrackAddedDate'
+export const TrackAddedDate = ({ date }: Props) => {
+  return <span className='w-fit text-sm'>{formatDate(date)}</span>
+}

@@ -64,7 +64,7 @@ export const PlaylistItem = ({ id, title, isFixed }: Props) => {
       <p className={styles.title}>{title}</p>
       <div className={styles.info}>
         {isFixed && <PiPushPinFill size='15px' fill='var(--color-primary)' />}
-        Плейлист <UiDot isGray /> username
+        Плейлист <UiDot isGray /> {username}
       </div>
       <ContextMenu contextMenu={contextMenu} onClose={handleClose}>
         <MenuItem onClick={() => handleDelete(id)}>

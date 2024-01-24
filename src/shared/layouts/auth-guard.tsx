@@ -43,7 +43,7 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     } else {
       handleVerify()
     }
-  }, [])
+  }, [isAuth])
 
   if (isLoading) {
     return <UiFullScreenLoader />

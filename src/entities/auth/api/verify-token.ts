@@ -1,16 +1,18 @@
 import { siftifyApi } from '#/shared/api'
+import { QUERY_KEYS } from '#/shared/constants'
 import { deleteItemFromLocalStorage } from '#/shared/lib/localStorage'
 import { useUserStore } from '#/shared/store'
 import { useMutation } from '@tanstack/react-query'
 
 export const useVerifyToken = () => {
-  const setUser = useUserStore((state) => state.setUser)
+  const { setUser, setFavoriteTracksIds } = useUserStore()
 
   return useMutation({
-    mutationKey: ['verify-token'],
+    mutationKey: QUERY_KEYS.VERIFY_TOKEN,
     mutationFn: () => siftifyApi.verifyToken(),
-    onSuccess(data) {
-      if (data) setUser(data)
+    onSuccess(res) {
+      setUser(res.user)
+      setFavoriteTracksIds(res.favoriteTracksIds)
     },
     onError(error: any) {
       if (error?.response?.data?.message === 'Unauthorized') {

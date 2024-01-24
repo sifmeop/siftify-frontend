@@ -7,27 +7,19 @@ interface Props {
   query: UseMutateAsyncFunction<any, unknown, string, unknown>
   isLoadingQuery: boolean
   trackId: string
-  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UiAddToFavorite = ({
-  query,
-  isLoadingQuery,
-  trackId,
-  setIsFavorite
-}: Props) => {
+export const UiAddToFavorite = ({ query, isLoadingQuery, trackId }: Props) => {
   const handleAdd = async () => {
     if (isLoadingQuery) {
       toast.error('Трек добавляется в любимые...')
       return
     }
 
-    setIsFavorite(true)
-
     try {
       await query(trackId)
     } catch (error) {
-      setIsFavorite(false)
+      toast.error('Не удалось добавить трек в любимые')
     }
   }
 

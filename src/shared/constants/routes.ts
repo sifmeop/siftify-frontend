@@ -12,5 +12,6 @@ export const ROUTES = {
   UPLOAD: '/upload',
   ALBUM: '/album',
   PLAYLIST: '/playlist',
-  FAVORITE_TRACKS: '/favorite-tracks'
+  FAVORITE_TRACKS: '/favorite-tracks',
+  USER: '/user'
 }

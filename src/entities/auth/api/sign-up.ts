@@ -9,14 +9,15 @@ import { toast } from 'react-toastify'
 
 export const useSignUp = () => {
   const navigate = useNavigate()
-  const setUser = useUserStore().setUser
+  const { setUser, setFavoriteTracksIds } = useUserStore()
 
   return useMutation({
     mutationKey: ['sign-up'],
     mutationFn: (body: SignUpDto) => siftifyApi.signUp(body),
     onSuccess: (res) => {
-      setUser(res?.data)
-      setItemToLocalStorage('accessToken', res?.data.access_token)
+      setUser(res.user)
+      setFavoriteTracksIds(res.favoriteTracksIds)
+      setItemToLocalStorage('accessToken', res.user.access_token)
       navigate(ROUTES.HOME)
     },
     onError: (error: SignError) => {
