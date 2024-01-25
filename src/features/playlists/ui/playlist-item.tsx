@@ -83,6 +83,12 @@ export const PlaylistItem = ({ id, title, isFixed }: Props) => {
           </ListItemIcon>
           <ListItemText>{isFixed ? 'Открепить' : 'Закрепить'}</ListItemText>
         </MenuItem>
+        <MenuItem onClick={() => handleDelete(id)}>
+          <ListItemIcon>
+            <FiMinusCircle size='20px' color='#ffffff' />
+          </ListItemIcon>
+          <ListItemText>Удалить</ListItemText>
+        </MenuItem>
       </ContextMenu>
     </Link>
   )

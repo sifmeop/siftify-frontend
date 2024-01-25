@@ -7,7 +7,7 @@ import { LuMusic } from 'react-icons/lu'
 
 interface Props {
   title: string
-  cover?: string
+  cover: string | null
   username: string
   userId: string
   countTracks: number

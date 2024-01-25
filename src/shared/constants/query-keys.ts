@@ -16,5 +16,7 @@ export const QUERY_KEYS = {
   GET_PLAYLISTS_BY_ID: (id: string) => ['get-playlist', id],
   DELETE_PLAYLIST: ['delete-playlist'],
   PIN_PLAYLIST: ['pin-playlist'],
-  GET_FAVORITE_TRACKS: ['get-favorite-tracks']
+  GET_FAVORITE_TRACKS: ['get-favorite-tracks'],
+  ADD_TRACK_PLAYLIST: ['add-track-playlist'],
+  REMOVE_TRACK_PLAYLIST: ['remove-track-playlist']
 }

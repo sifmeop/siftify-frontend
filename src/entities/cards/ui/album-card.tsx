@@ -49,7 +49,7 @@ export const AlbumCard = ({
         <img className='w-[250px] h-[250px]' src={getUrl(cover)} alt={title} />
       </div>
       <div className={styles.left}>
-        <span className='text-sm'>АЛЬБОМ</span>
+        <span className='text-sm'>{countTracks > 1 ? 'АЛЬБОМ' : 'ТРЕК'}</span>
         <h1 className={styles.title}>{title}</h1>
         <div className={styles.info}>
           <div className='flex items-center gap-1'>

@@ -1,19 +1,31 @@
 import { PlaylistCard } from '#/entities/cards'
 import { useGetPlaylistById } from '#/entities/playlists'
+import { TrackTableList } from '#/entities/trackTableList'
 import { useParams } from 'react-router-dom'
 
 export const PlaylistIdPage = () => {
   const { id } = useParams()
-  const { data } = useGetPlaylistById(id)
+  const { data, isLoading, isError, error, isSuccess } = useGetPlaylistById(id)
+
+  if (!data) {
+    return
+  }
 
   return (
     <div>
       <PlaylistCard
-        countTracks={0}
+        countTracks={data.tracks.length}
         title={data?.title ?? ''}
-        userId='asdasd'
-        username='asdasd'
-        cover={undefined}
+        userId={data.userId}
+        username={data.user.username}
+        cover={data.cover}
+      />
+      <TrackTableList
+        tracks={data?.tracks}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        isSuccess={isSuccess}
       />
     </div>
   )

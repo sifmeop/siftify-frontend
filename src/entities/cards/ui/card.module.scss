@@ -3,7 +3,7 @@
 }
 
 .left {
-  @apply flex flex-col gap-2 justify-between;
+  @apply flex flex-col gap-2 justify-between overflow-hidden;
 }
 
 .title {

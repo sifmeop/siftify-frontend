@@ -70,6 +70,7 @@ export interface ITrack {
   type: MediaObjectType.TRACK
   album: IAlbum
   uploadedAt: string
+  playlistId: string | null
 }
 
 export interface IAlbum {
@@ -132,6 +133,17 @@ export interface IPlaylist {
   isFixedAt?: string
   isFavorite: boolean
   createdAt: string
+  tracks: ITrack[]
+  user: {
+    username: string
+  }
+  userId: string
+  cover: string | null
+}
+
+export interface ITrackToPlaylist {
+  playlistId: string
+  trackId: string
 }
 
 export const siftifyApi = {
@@ -258,6 +270,16 @@ export const siftifyApi = {
   getTopTracksArtists: async (artistId: string) => {
     const response = await axiosInstance.get<ITrack[]>('/artist/top-tracks', {
       params: { artistId }
+    })
+    return response.data
+  },
+  addTrackToPlaylist: async (body: ITrackToPlaylist) => {
+    const response = await axiosInstance.post('/playlist/track/add', body)
+    return response.data
+  },
+  removeTrackFromPlaylist: async (body: ITrackToPlaylist) => {
+    const response = await axiosInstance.delete('/playlist/track/remove', {
+      data: body
     })
     return response.data
   }

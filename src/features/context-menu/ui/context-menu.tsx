@@ -1,3 +1,7 @@
+import {
+  useAddTrackPlaylist,
+  useRemoveTrackPlaylist
+} from '#/entities/playlists'
 import { ITrack } from '#/shared/api'
 import { toastBottom } from '#/shared/lib/toastBottom'
 import { useQueueStore } from '#/shared/store'
@@ -27,6 +31,41 @@ export const ContextMenu = ({
   const open = !!anchorEl
 
   const addToQueue = useQueueStore((state) => state.addTrackToQueue)
+  const { mutateAsync: addTrackPlaylist } = useAddTrackPlaylist()
+  const { mutateAsync: removeTrackPlaylist } = useRemoveTrackPlaylist()
+
+  const handleAddTrack = async () => {
+    onClose()
+
+    if (track.playlistId) return
+
+    try {
+      await addTrackPlaylist({
+        playlistId: track.playlistId ?? '65b26c0f9d9944b95f67d657',
+        trackId: track.id
+      })
+    } catch (error) {
+      console.log(`Error add track to playlist: ${track.playlistId}`, error)
+    }
+  }
+
+  const handleRemoveTrack = async () => {
+    onClose()
+
+    if (!track.playlistId) return
+
+    try {
+      await removeTrackPlaylist({
+        playlistId: track.playlistId ?? '65b26c0f9d9944b95f67d657',
+        trackId: track.id
+      })
+    } catch (error) {
+      console.log(
+        `Error deleting track from playlist: ${track.playlistId}`,
+        error
+      )
+    }
+  }
 
   return (
     <Menu
@@ -60,12 +99,21 @@ export const ContextMenu = ({
           ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
           : undefined
       }>
-      <MenuItem onClick={onClose}>
-        <ListItemIcon>
-          <IoMdAdd size='20px' fill='#ffffff' />
-        </ListItemIcon>
-        <ListItemText>Добавить в плейлист</ListItemText>
-      </MenuItem>
+      {track.playlistId ? (
+        <MenuItem onClick={handleRemoveTrack}>
+          <ListItemIcon>
+            <IoMdAdd size='20px' fill='#ffffff' />
+          </ListItemIcon>
+          <ListItemText>Убрать из плейлиста</ListItemText>
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={handleAddTrack}>
+          <ListItemIcon>
+            <IoMdAdd size='20px' fill='#ffffff' />
+          </ListItemIcon>
+          <ListItemText>Добавить в плейлист</ListItemText>
+        </MenuItem>
+      )}
       <MenuItem onClick={onClose}>
         <ListItemIcon>
           <IoAddCircleOutline size='20px' stroke='#ffffff' />
