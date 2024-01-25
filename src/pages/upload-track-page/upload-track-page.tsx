@@ -200,7 +200,10 @@ export const UploadTrackPage = () => {
             </>
           )}
           <DropzoneTracks single={value === 0 ? true : false} />
-          <UiButton type='submit' disabled={!tracks.length}>
+          <UiButton
+            type='submit'
+            loader={isLoading}
+            disabled={!tracks.length || isLoading}>
             Загрузить
           </UiButton>
         </form>

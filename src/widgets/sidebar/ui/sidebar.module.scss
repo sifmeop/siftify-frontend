@@ -23,7 +23,7 @@
 }
 
 .link {
-  @apply flex items-center font-semibold gap-4 text-lg opacity-80 hover:opacity-100 transition-opacity;
+  @apply flex items-center font-semibold gap-4 opacity-80 hover:opacity-100 transition-opacity;
 
   @media (width < 768px) {
     & span {

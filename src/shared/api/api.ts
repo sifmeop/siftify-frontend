@@ -129,6 +129,9 @@ export interface IPlaylist {
   id: string
   title: string
   isFixed: boolean
+  isFixedAt?: string
+  isFavorite: boolean
+  createdAt: string
 }
 
 export const siftifyApi = {
@@ -250,6 +253,12 @@ export const siftifyApi = {
   },
   getFavoriteTracks: async () => {
     const response = await axiosInstance.get<ITrack[]>('/track/favorites')
+    return response.data
+  },
+  getTopTracksArtists: async (artistId: string) => {
+    const response = await axiosInstance.get<ITrack[]>('/artist/top-tracks', {
+      params: { artistId }
+    })
     return response.data
   }
 }

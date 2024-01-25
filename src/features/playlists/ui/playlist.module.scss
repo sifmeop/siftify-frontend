@@ -1,5 +1,5 @@
 .link {
-  @apply flex items-center font-semibold gap-4 text-lg opacity-80;
+  @apply flex items-center font-semibold gap-4 opacity-80;
 
   &_active {
     opacity: 1;
@@ -13,7 +13,7 @@
 }
 
 .playlist_link {
-  @apply grid items-center gap-x-3 p-2 text-sm rounded-md hover:bg-[#1a1a1a] transition-all duration-200;
+  @apply grid items-center font-medium gap-x-3 p-2 text-sm rounded-md hover:bg-[#1a1a1a] transition-all duration-200;
   grid-template-columns: 48px 1fr 1fr;
   grid-template-rows: auto auto;
   &_active {

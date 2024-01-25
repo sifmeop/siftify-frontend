@@ -8,12 +8,19 @@ export const Playlists = () => {
 
   return (
     <div className='mt-2'>
-      <FavoriteTracks />
       <UiLoader isLoading={isLoading} />
       {isSuccess &&
-        data?.map((playlist) => (
-          <PlaylistItem key={playlist.id} {...playlist} />
-        ))}
+        data?.map((playlist) =>
+          playlist.isFavorite ? (
+            <FavoriteTracks
+              key={playlist.id}
+              id={playlist.id}
+              isFixed={playlist.isFixed}
+            />
+          ) : (
+            <PlaylistItem key={playlist.id} {...playlist} />
+          )
+        )}
     </div>
   )
 }

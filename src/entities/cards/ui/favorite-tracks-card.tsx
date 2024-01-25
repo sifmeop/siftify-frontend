@@ -15,7 +15,7 @@ export const FavoriteTracksCard = ({ countTracks }: Props) => {
     <div className={styles.container}>
       <div>
         <img
-          className='w-[250px]'
+          className='w-[250px] h-[250px]'
           src='/favorite-tracks-cover.png'
           alt='Любимые треки'
         />

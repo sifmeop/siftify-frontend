@@ -1,5 +1,5 @@
 .container {
-  @apply flex gap-6;
+  @apply flex gap-6 mb-4;
 }
 
 .left {
@@ -7,7 +7,8 @@
 }
 
 .title {
-  @apply text-8xl font-black;
+  @apply font-black truncate;
+  font-size: clamp(0.5rem, 5vw, 6rem);
 }
 
 .info {
@@ -16,4 +17,8 @@
 
 .dot {
   @apply w-1 h-1 rounded-full bg-white;
+}
+
+.cover {
+  @apply bg-[#282828] grid place-content-center w-[250px] h-[250px] rounded-md;
 }

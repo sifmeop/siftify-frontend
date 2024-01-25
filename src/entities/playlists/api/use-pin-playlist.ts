@@ -26,7 +26,8 @@ export const usePinPlaylist = () => {
 
       const newData = previousPlaylists.with(findPlaylistIndex, {
         ...previousPlaylists[findPlaylistIndex],
-        isFixed
+        isFixed,
+        isFixedAt: isFixed ? new Date().toISOString() : undefined
       })
 
       queryClient.setQueryData(QUERY_KEYS.GET_PLAYLISTS, newData)

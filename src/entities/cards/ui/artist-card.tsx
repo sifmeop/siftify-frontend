@@ -12,7 +12,7 @@ export const ArtistCard = ({ name, photo, listening }: Props) => {
     <div className={styles.container}>
       <div>
         <img
-          className='w-[250px]'
+          className='w-[250px] h-[250px]'
           src={photo ? getUrl(photo) : '/default-avatar.jpg'}
           alt={name}
         />

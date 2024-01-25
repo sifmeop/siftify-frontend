@@ -46,7 +46,7 @@ export const AlbumCard = ({
   return (
     <div className={styles.container}>
       <div>
-        <img className='w-[250px]' src={getUrl(cover)} alt={title} />
+        <img className='w-[250px] h-[250px]' src={getUrl(cover)} alt={title} />
       </div>
       <div className={styles.left}>
         <span className='text-sm'>АЛЬБОМ</span>
