@@ -14,6 +14,7 @@ interface Props {
   onClose: () => void
   title: string
   children: React.ReactNode
+  maxWidth?: number
 }
 
 const style: SxProps<Theme> = {
@@ -21,7 +22,6 @@ const style: SxProps<Theme> = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  maxWidth: 450,
   width: '100%',
   maxHeight: '90dvh',
   bgcolor: '#191919',
@@ -30,11 +30,17 @@ const style: SxProps<Theme> = {
   p: 4
 }
 
-export const UiModal = ({ isOpen, onClose, title, children }: Props) => {
+export const UiModal = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  maxWidth = 450
+}: Props) => {
   return (
     <Modal open={isOpen} onClose={onClose} closeAfterTransition>
       <Fade in={isOpen}>
-        <Box sx={style}>
+        <Box sx={{ ...style, maxWidth }}>
           <Typography variant='h6' component='h2' sx={{ mb: 2 }}>
             {title}
           </Typography>

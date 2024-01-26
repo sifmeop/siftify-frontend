@@ -9,6 +9,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   iconLeft?: React.ReactNode
   iconRight?: React.ReactNode
   classNameContainer?: string
+  isTextarea?: boolean
 }
 
 export const UiInput = ({
@@ -18,6 +19,7 @@ export const UiInput = ({
   iconRight,
   className,
   classNameContainer,
+  isTextarea = false,
   ...props
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -29,16 +31,28 @@ export const UiInput = ({
     <>
       <div className={cn(styles.wrapper, classNameContainer)}>
         {iconLeft && <div className={styles.iconLeft}>{iconLeft}</div>}
-        <input
-          {...register}
-          className={cn(styles.input, className, {
-            [styles.inputPassword]: typeIsPassword,
-            [styles.hasIconLeft]: !!iconLeft,
-            [styles.hasIconRight]: !!iconRight
-          })}
-          type={showPassword ? 'text' : type}
-          {...props}
-        />
+        {isTextarea ? (
+          <textarea
+            {...register}
+            className={cn('resize-none', styles.input, className, {
+              [styles.inputPassword]: typeIsPassword,
+              [styles.hasIconLeft]: !!iconLeft,
+              [styles.hasIconRight]: !!iconRight
+            })}
+            {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          />
+        ) : (
+          <input
+            {...register}
+            className={cn(styles.input, className, {
+              [styles.inputPassword]: typeIsPassword,
+              [styles.hasIconLeft]: !!iconLeft,
+              [styles.hasIconRight]: !!iconRight
+            })}
+            type={showPassword ? 'text' : type}
+            {...props}
+          />
+        )}
         {iconRight && <div className={styles.iconRight}>{iconRight}</div>}
         {typeIsPassword && (
           <button

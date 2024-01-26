@@ -129,6 +129,7 @@ export interface ITrackId {
 export interface IPlaylist {
   id: string
   title: string
+  description?: string
   isFixed: boolean
   isFixedAt?: string
   isFavorite: boolean
@@ -144,6 +145,13 @@ export interface IPlaylist {
 export interface ITrackToPlaylist {
   playlistId: string
   trackId: string
+}
+
+export interface IEditPlaylist {
+  id: string
+  title: string
+  cover?: string | null
+  description?: string
 }
 
 export const siftifyApi = {
@@ -281,6 +289,10 @@ export const siftifyApi = {
     const response = await axiosInstance.delete('/playlist/track/remove', {
       data: body
     })
+    return response.data
+  },
+  editPlaylist: async (body: FormData) => {
+    const response = await axiosInstance.put<IPlaylist>('/playlist/edit', body)
     return response.data
   }
 }

@@ -1,15 +1,25 @@
 import { Menu } from '@mui/material'
 
 interface Props {
-  contextMenu: {
+  contextMenu?: {
     mouseX: number
     mouseY: number
   } | null
   onClose: () => void
   children: React.ReactNode
+  leftClick?: boolean
+  anchorEl?: HTMLElement | null
 }
 
-export const ContextMenu = ({ contextMenu, onClose, children }: Props) => {
+export const ContextMenu = ({
+  anchorEl = null,
+  leftClick = false,
+  contextMenu = null,
+  onClose,
+  children
+}: Props) => {
+  const open = !!anchorEl
+
   return (
     <Menu
       sx={{
@@ -22,22 +32,23 @@ export const ContextMenu = ({ contextMenu, onClose, children }: Props) => {
           borderRadius: '8px'
         }
       }}
-      open={contextMenu !== null}
+      anchorEl={anchorEl}
+      open={!!contextMenu || open}
       onClose={onClose}
       MenuListProps={{
         'aria-labelledby': 'basic-button'
       }}
-      anchorReference='anchorPosition'
       anchorOrigin={{
-        vertical: 'top',
+        vertical: leftClick ? 'bottom' : 'top',
         horizontal: 'left'
       }}
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left'
       }}
+      anchorReference={leftClick ? 'anchorEl' : 'anchorPosition'}
       anchorPosition={
-        contextMenu !== null
+        contextMenu
           ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
           : undefined
       }>

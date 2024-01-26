@@ -1,6 +1,16 @@
 import { useState } from 'react'
 
 export const useContextMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const handleOpenAnchor = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleCloseAnchor = () => {
+    setAnchorEl(null)
+  }
+
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number
     mouseY: number
@@ -25,6 +35,9 @@ export const useContextMenu = () => {
   return {
     contextMenu,
     handleContextMenu,
-    handleClose
+    handleClose,
+    anchorEl,
+    handleOpenAnchor,
+    handleCloseAnchor
   }
 }

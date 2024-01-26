@@ -22,3 +22,7 @@
 .cover {
   @apply bg-[#282828] grid place-content-center w-[250px] h-[250px] rounded-md;
 }
+
+.description {
+  @apply text-sm text-[var(--gray)] mb-2;
+}

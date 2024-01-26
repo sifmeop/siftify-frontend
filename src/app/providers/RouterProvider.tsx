@@ -1,4 +1,4 @@
-import { AlbumPageWrapper } from '#/pages/album-page/album-page'
+import { AlbumPageWrapper } from '#/pages/album-page'
 import { ArtistPageWrapper } from '#/pages/artist-page'
 import { FavoriteTracksPage } from '#/pages/favorite-tracks-page'
 import { HomePage } from '#/pages/home-page'

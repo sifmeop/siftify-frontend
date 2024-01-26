@@ -18,5 +18,6 @@ export const QUERY_KEYS = {
   PIN_PLAYLIST: ['pin-playlist'],
   GET_FAVORITE_TRACKS: ['get-favorite-tracks'],
   ADD_TRACK_PLAYLIST: ['add-track-playlist'],
-  REMOVE_TRACK_PLAYLIST: ['remove-track-playlist']
+  REMOVE_TRACK_PLAYLIST: ['remove-track-playlist'],
+  EDIT_PLAYLIST: ['edit_playlist']
 }

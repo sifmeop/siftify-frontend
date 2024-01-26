@@ -1,1 +1,1 @@
-export { AlbumPage } from './album-page'
+export { AlbumPageWrapper } from './album-page'
